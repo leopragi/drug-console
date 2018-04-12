@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import store from './redux/store'
+import {userSignUpStart} from './redux/actions/actionCreators'
 
 class App extends Component {
   render() {
@@ -17,5 +19,7 @@ class App extends Component {
     );
   }
 }
+
+store.dispatch(userSignUpStart())
 
 export default App;
