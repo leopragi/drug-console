@@ -10,7 +10,7 @@ export function TextInput(props){
 
 
 export function Card(props){
-    let{title,extra, loading} = props;
+    let {title,extra, loading} = props;
     return (
         <DefaultCard 
             style = {{width : 300}}
