@@ -1,17 +1,46 @@
 import React, { Component } from 'react'
-import { Card, TextInput } from '../components/FormComponents';
+import { Card, TextInput, Button } from '../components/FormComponents';
+import style from 'styled-components'
 
-class Create extends Component {
+
+
+
+
+export class Create extends Component {
+  
+    state = {
+        email : '',
+        password :'',
+    }
+
+    handleChange = (event) => {
+        let target = event.target;
+
+        this.setState({ [target.name] : target.name });
+    }
     render() {
         return (
-            
-                <Card title ='SIGNUP' >
-                    <div>
-                        <TextInput placeholder='Email' />
-                        <TextInput placeholder='Password' />
+            <Card>
+                <TextInput
+                    name='email'
+                    size='large'
+                    placeholder='Email'
+                    value={this.state.email}
+                    onChange={this.handleChange}
+                />
 
-                    </div>
-                </Card>
+                <TextInput
+                    name='password'
+                    size='large'
+                    placeholder='Password'
+                    value={this.state.password}
+                    onChange={this.handleChange}
+                />
+
+                <Button>Sign up</Button>
+
+            </Card>
+            
         )
     }
 }
