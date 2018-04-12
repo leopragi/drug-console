@@ -1,10 +1,5 @@
 import React, { Component } from 'react'
 import { Card, TextInput, Button } from '../components/FormComponents';
-import style from 'styled-components'
-
-
-
-
 
 export class Create extends Component {
   
@@ -15,15 +10,16 @@ export class Create extends Component {
 
     handleChange = (event) => {
         let target = event.target;
-
         this.setState({ [target.name] : target.name });
     }
+
     render() {
         return (
             <Card>
                 <TextInput
                     name='email'
                     size='large'
+                    type="email"                    
                     placeholder='Email'
                     value={this.state.email}
                     onChange={this.handleChange}
@@ -33,6 +29,7 @@ export class Create extends Component {
                     name='password'
                     size='large'
                     placeholder='Password'
+                    type="password"                    
                     value={this.state.password}
                     onChange={this.handleChange}
                 />
