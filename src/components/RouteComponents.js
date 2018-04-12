@@ -1,5 +1,5 @@
 import React from "react";
-import { Route as PublicRoute, Redirect, Link, BrowserRouter as Router} from "react-router-dom";
+import { Route as PublicRoute, Redirect, Link, BrowserRouter as Router, Switch} from "react-router-dom";
 
 const PrivateRoute = ({
 	redirectTo, // Redirect to this route if not logged in
@@ -30,4 +30,4 @@ function PrivateRouteWrapper(isLoggedIn) {
 	}
 }
 
-export  {PrivateRouteWrapper, PublicRoute, Link, Router};
+export  {PrivateRouteWrapper, PublicRoute, Link, Router, Switch};
