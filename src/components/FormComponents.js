@@ -3,11 +3,8 @@ import { Input, Card as DefaultCard, Button as DefaultButton} from 'antd';
 import style from 'styled-components'
 
 const InputContainer = style.div`
-    padding : 0.3em
-    
+    padding : 5px;
 `;
-
-
 
 export function TextInput(props){
     let {name, placeholder, size, value, type, onChange} = props;
@@ -43,16 +40,13 @@ export function Button(props){
 
 export function Card(props){
     let {title,extra, loading} = props;
-        return (
-            <InputContainer>
-                <DefaultCard 
-                    style = {{width : 300}}
-                    loading = {loading} 
-                    title = {title}
-                    extra = {extra} >
-                    {props.children}
-                </DefaultCard>
-            </InputContainer>
+    return (
+        <DefaultCard 
+            loading = {loading} 
+            title = {title}
+            extra = {extra} >
+            {props.children}
+        </DefaultCard>  
     );
 }
 
