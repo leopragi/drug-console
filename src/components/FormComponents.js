@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Card as DefaultCard} from 'antd';
+import { Input, Card as DefaultCard, Button as DefaultButton} from 'antd';
 
 export function TextInput(props){
     let {name, placeholder, size, value, type, onChange} = props;
@@ -13,9 +13,20 @@ export function TextInput(props){
             />
 }
 
+export function Button(props){
+    let {name, size, loading} = props;
+    return <DefaultButton
+                name={name}
+                loading={loading} 
+                type="primary"
+                size={size}>
+                {props.children}
+            </DefaultButton>
+}
+
 
 export function Card(props){
-    let{title,extra, loading} = props;
+    let {title, extra, loading} = props;
     return (
         <DefaultCard 
             style = {{width : 300}}
