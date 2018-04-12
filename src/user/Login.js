@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react';
+
 import {TextInput, Card, Button} from '../components/FormComponents'
 
 class Login extends Component {
@@ -12,13 +13,14 @@ class Login extends Component {
         const target = event.target;
         this.setState({[target.name] : target.value});
     }
-
-    render() {
-        return (
+    
+    render(){
+        return(
             <Card>
                 <TextInput 
                     name="email"
                     size="large"
+                    type="email"
                     placeholder="Email"
                     value={this.state.email}
                     onChange={this.handleChange}   
