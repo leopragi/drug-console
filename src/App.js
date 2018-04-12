@@ -6,6 +6,8 @@ import Login from './user/Login'
 import Dashboard from './user/Dashboard'
 import { Button } from 'antd';
 
+import store from './redux/store'
+import {userSignUpStart} from './redux/actions/actionCreators'
 
 class App extends Component {
 	render() {
@@ -26,5 +28,7 @@ class App extends Component {
 		);
 	}
 }
+
+// store.dispatch(userSignUpStart())
 
 export default App;
