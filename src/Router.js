@@ -1,41 +1,31 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router} from 'react-router-dom';
-
 import {connect} from 'react-redux'
+
 import UserCreate from './user/Create'
-import {PublicRoute,PrivateRoute,LoginRoute} from './components/RouterComponents'
+import {PrivateRouteWrapper, PublicRoute, Link, Router, Switch} from './components/RouteComponents';
+import CreateUser from './user/Create'
+import Login from './user/Login'
+import Dashboard from './user/Dashboard'
 
 class AppRouter extends Component {
     render() {
         var isLoggedIn = this.props.isLoggedIn;
         isLoggedIn= !!this.props.user;
+
+		let PrivateRoute = PrivateRouteWrapper(isLoggedIn);
         return (
             <Router>
-                <div>
-                    <PrivateRoute path="/" component={Dashboard}
-                        exact
-                        isLoggedIn={isLoggedIn}
-                        redirectTo="/user/login"
-                    />
-                   
-                    <PrivateRoute
-                        path="/dashboard"
-                        component={Dashboard}
-                        isLoggedIn={isLoggedIn}
-                        redirectTo="/user/login"
-                    />
-                    <LoginRoute
-                        path="/user/login"
-                        component={UserLoginForm}
-                        isLoggedIn={isLoggedIn}
-                    />
-                    <PublicRoute
-                        path="/user/createUser"
-                        component={UserCreateForm}
-                        isLoggedIn={isLoggedIn}
-                    />
-                </div>
-            </Router>
+				<div>
+					<Link to="/login">Login</Link>
+					<Link to="/user/create">Create User</Link>
+					<Link to="/dashboard">Dashboard</Link>
+					<Switch>
+						<PublicRoute path="/user/create" component={CreateUser}/>
+						<PrivateRoute redirectTo="/login" path="/dashboard" component={Dashboard}/>
+						<PrivateRoute path="/login" isLoggedIn={!isLoggedIn} component={Login}/>					
+					</Switch>
+				</div>
+			</Router>
         );
     }
 }
