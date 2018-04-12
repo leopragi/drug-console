@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input } from 'antd';
+import { Input, Card as DefaultCard} from 'antd';
 
 export function TextInput(props){
     let {name, placeholder, size, value, type, onChange} = props;
@@ -12,3 +12,21 @@ export function TextInput(props){
                 onChange={onChange}
             />
 }
+
+
+export function Card(props){
+    let{title,extra, loading} = props;
+    return (
+        <DefaultCard 
+            style = {{width : 300}}
+            loading = {loading} 
+            title = {title}
+            extra = {extra} >
+            {props.children}
+        </DefaultCard>
+    );
+}
+
+
+
+    
