@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import {TextInput} from '../components/FormComponents'
+import {TextInput, Card, Button} from '../components/FormComponents'
 
 class Login extends Component {
 
@@ -15,13 +15,13 @@ class Login extends Component {
 
     render() {
         return (
-            <div>
+            <Card>
                 <TextInput 
                     name="email"
                     size="large"
                     placeholder="Email"
                     value={this.state.email}
-                    onChange={this.handleChange}                    
+                    onChange={this.handleChange}   
                 />
                 <TextInput 
                     name="password"
@@ -31,7 +31,8 @@ class Login extends Component {
                     value={this.state.password}
                     onChange={this.handleChange}                    
                 />
-            </div>
+                <Button>Login</Button>
+            </Card>
         )
     }
 }
