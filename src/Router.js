@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import UserCreate from './user/Create'
 import {PrivateRouteWrapper, PublicRoute, Link, Router, Switch} from './components/RouteComponents';
 import CreateUser from './user/Create'
-import Login from './user/Login'
+import Auth from './user/Auth'
 import Dashboard from './user/Dashboard'
 
 class AppRouter extends Component {
@@ -16,13 +16,13 @@ class AppRouter extends Component {
         return (
             <Router>
 				<div>
-					<Link to="/login">Login</Link>
+					{/* <Link to="/login">Login</Link>
 					<Link to="/user/create">Create User</Link>
-					<Link to="/dashboard">Dashboard</Link>
+					<Link to="/dashboard">Dashboard</Link> */}
 					<Switch>
 						<PublicRoute path="/user/create" component={CreateUser}/>
 						<PrivateRoute redirectTo="/login" path="/dashboard" component={Dashboard}/>
-						<PrivateRoute path="/login" isLoggedIn={!isLoggedIn} component={Login}/>					
+						<PrivateRoute path="/login" isLoggedIn={!isLoggedIn} component={Auth}/>					
 					</Switch>
 				</div>
 			</Router>
