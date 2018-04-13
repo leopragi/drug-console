@@ -1,12 +1,13 @@
-import {USER_SIGNUP_START, USER_LOGIN_START, USER_CHECK_LOGIN_STATUS_START} from '../actions/actions'
+import {USER_SIGNUP_START, USER_LOGIN_START, USER_CHECK_LOGIN_STATUS_START, USER_MAIL_VERIFICATION_CHECK_START, USER_SEND_VERIFICATION_MAIL} from '../actions/actions'
 import { takeEvery } from 'redux-saga/effects'
 
-import {userSignUpStart, userLoginStart, userCheckLoginStatusStart} from './user'
+import {userSignUpStart, userLoginStart, userCheckLoginStatusStart, userSendVerificationMailStartRedux} from './user'
 
 function* rootSaga(){
     yield takeEvery(USER_SIGNUP_START, userSignUpStart)
     yield takeEvery(USER_CHECK_LOGIN_STATUS_START, userCheckLoginStatusStart)
     yield takeEvery(USER_LOGIN_START, userLoginStart)
+    yield takeEvery(USER_MAIL_VERIFICATION_CHECK_START, userSendVerificationMailStartRedux)
 }
 
 export default rootSaga;
