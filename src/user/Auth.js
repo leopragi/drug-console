@@ -25,6 +25,10 @@ const RightContainer = styled.div`
     flex : 1;
 `;
 
+const AuthContainer = styled.div`
+    display: flex;
+`;
+
 class Auth extends Component {
 
     render() {
@@ -33,14 +37,16 @@ class Auth extends Component {
                 <LeftContainer>
                 </LeftContainer>                
                 <RightContainer>
-                    <Tabs defaultActiveKey="1" size="large">
-                        <TabPane tab="Login" key="1">
-                            <UserLogin />
-                        </TabPane>
-                        <TabPane tab="Sign Up" key="2">
-                            <UserCreate />
-                        </TabPane>
-                    </Tabs>
+                    <AuthContainer>
+                        <Tabs defaultActiveKey="1" size="large">
+                            <TabPane tab="Login" key="1">
+                                <UserLogin />
+                            </TabPane>
+                            <TabPane tab="Sign Up" key="2">
+                                <UserCreate />
+                            </TabPane>
+                        </Tabs>
+                    </AuthContainer>
                 </RightContainer>
             </Container>
         )
