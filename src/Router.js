@@ -6,6 +6,7 @@ import {PrivateRouteWrapper, PublicRoute, Link, Router, Switch} from './componen
 import CreateUser from './user/Create'
 import Auth from './user/Auth'
 import Dashboard from './user/Dashboard'
+import { userSendVerificationMailStart } from './redux/actions/actionCreators';
 
 class AppRouter extends Component {
     render() {
@@ -31,9 +32,9 @@ class AppRouter extends Component {
 
 
 const mapStateToProps = (state, ownProps) => {
-    return {
+	return {
         user: state.user
     }
 }
 
-export default connect(mapStateToProps,null)(AppRouter)
+export default connect(mapStateToProps,{userSendVerificationMailStart})(AppRouter)
