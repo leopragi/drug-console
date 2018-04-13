@@ -9,10 +9,10 @@ import Dashboard from './user/Dashboard'
 
 class AppRouter extends Component {
     render() {
-        var isLoggedIn = this.props.isLoggedIn;
-        isLoggedIn= !this.props.user instanceof Error;
+		var isLoggedIn = this.props.isLoggedIn;
+        isLoggedIn= !!this.props.user;
 		let PrivateRoute = PrivateRouteWrapper(isLoggedIn);
-		console.log(this.props.user)
+
         return (
             <Router>
 				<div>
@@ -20,9 +20,8 @@ class AppRouter extends Component {
 					<Link to="/user/create">Create User</Link>
 					<Link to="/dashboard">Dashboard</Link> */}
 					<Switch>
-						<PublicRoute path="/user/create" component={CreateUser}/>
 						<PrivateRoute redirectTo="/login" path="/dashboard" component={Dashboard}/>
-						<PrivateRoute path="/login" isLoggedIn={!isLoggedIn} component={Auth}/>					
+						<PrivateRoute redirectTo="/dashboard" path="/login" isLoggedIn={!isLoggedIn} component={Auth}/>					
 					</Switch>
 				</div>
 			</Router>
