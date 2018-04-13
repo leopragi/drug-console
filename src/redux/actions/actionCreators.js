@@ -1,7 +1,7 @@
 import {USER_SIGNUP_START, USER_SIGNUP_FINISH, 
     USER_LOGIN_START, USER_SIGN_OUT,
     USER_LOGIN_FINISH, USER_CHECK_LOGIN_STATUS_START, 
-    USER_CHECK_LOGIN_STATUS_FINISH, USER_SEND_VERIFICATION_MAIL_START, USER_SEND_VERIFICATION_MAIL_FINSIH } from './actions'
+    USER_CHECK_LOGIN_STATUS_FINISH, USER_SEND_VERIFICATION_MAIL_START, USER_SEND_VERIFICATION_MAIL_FINSIH, USER_READ_QUERY_FINISH, USER_READ_QUERY_START } from './actions'
 
 export function userSignUpStart(credentials){
     return{
@@ -55,6 +55,20 @@ export function userSendVerificationMailStart(user){
     return{
         type: USER_SEND_VERIFICATION_MAIL_START,
         payload: user
+    }
+}
+
+export function userReadQueriesStart(user){
+    return{
+        type: USER_READ_QUERY_START,
+        payload : user
+}
+}
+
+export function userReadQueriesFinish(queries){
+    return{
+        type: USER_READ_QUERY_FINISH,
+        payload :queries
     }
 }
 
