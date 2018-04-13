@@ -10,8 +10,9 @@ import Dashboard from './user/Dashboard'
 class AppRouter extends Component {
     render() {
         var isLoggedIn = this.props.isLoggedIn;
-        isLoggedIn= !!this.props.user;
+        isLoggedIn= !this.props.user instanceof Error;
 		let PrivateRoute = PrivateRouteWrapper(isLoggedIn);
+		console.log(this.props.user)
         return (
             <Router>
 				<div>
