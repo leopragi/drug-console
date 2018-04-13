@@ -2,6 +2,10 @@ import React, {Component} from 'react';
 
 import {TextInput, Card, Button} from '../components/FormComponents'
 
+import {connect} from 'react-redux'
+
+import {userLoginStart} from '../redux/actions/actionCreators'
+
 class Login extends Component {
 
     state = {
@@ -12,6 +16,10 @@ class Login extends Component {
     handleChange = (event) => {
         const target = event.target;
         this.setState({[target.name] : target.value});
+    }
+
+    handleLogin = (event) => {
+        this.props.userLoginStart(this.state)
     }
     
     render(){
@@ -33,10 +41,14 @@ class Login extends Component {
                     value={this.state.password}
                     onChange={this.handleChange}                    
                 />
-                <Button size="large">Login</Button>
+                <Button
+                    size="large"
+                    onclick={this.handleLogin}>
+                    Login
+                </Button>
             </Card>
         )
     }
 }
 
-export default Login;
+export default connect(null, {userLoginStart})(Login);
