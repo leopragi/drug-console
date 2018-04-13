@@ -27,7 +27,6 @@ function readQuery(ref){
     }) 
 }
 export function* userCheckLoginStatusStart(action){
-    console.log(action)    
     try{
         var user = yield call(onAuthStateChanged);
         yield put(userCheckLoginStatusFinish(user))
@@ -85,7 +84,6 @@ export function* userReadQueriesStart(action){
     try{
         var queryRef = database.ref('/queries');
         var queries = yield call(readQuery, queryRef);
-        console.log(queries)
         yield put(userReadQueriesFinish(queries))
     }
     catch(e){   

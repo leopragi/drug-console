@@ -31,8 +31,10 @@ class Dashboard extends Component {
     
     constructor(props){
         super(props)
-        console.log(props)
         props.userReadQueriesStart(props.user)
+    }
+
+    componentWillReceiveProps(newProps){
     }
     
     state = {
@@ -103,6 +105,10 @@ class Dashboard extends Component {
                     </Breadcrumb>
                     <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                         <PrivateRoute redirectTo='/login' path="/dashboard/signup" component={Create}/>
+
+                        <Card>
+                            
+                            </Card>
                     </div>
                 </Content>
                 <Footer>

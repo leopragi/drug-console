@@ -44,7 +44,6 @@ class Auth extends Component {
 		if(user){
 			redirectTo = '/dashboard/signup'
         }
-    console.log(user)        
         return (
             <Container>
                 <LeftContainer>
