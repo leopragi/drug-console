@@ -46,6 +46,7 @@ export class Create extends Component {
     state = {
         email : '',
         password :'',
+        current : 0
     }
 
     constructor(){
@@ -53,8 +54,17 @@ export class Create extends Component {
         this.steps = steps({
             email : this.state.email, 
             password : this.state.password, 
-            handleChange : this.handleChange
+            handleChange : this.handleChange,
         });
+    }
+
+    next = () => {
+        console.log(this.state.current),
+        this.setState({ current : this.state.current + 1 });
+    }
+    
+    prev = () => {
+        this.setState({ current : this.state.current - 1 });
     }
 
     handleChange = (event) => {
@@ -65,10 +75,29 @@ export class Create extends Component {
     render() {
         return (
             <Card>
-                <Steps current={0}>
+                <Steps current={this.state.current}>
                     {this.steps.map(item => <Step key={item.title} title={item.title} />)}
                 </Steps>
-                <div className="steps-content">{this.steps[0].content}</div>
+                <div className="steps-content">{this.steps[this.state.current].content}</div>
+                <div className="steps-action">
+                {
+                    this.state.current < this.steps.length - 1
+                    &&
+                    <Button type="primary" onClick={this.next}>Next</Button>
+                }
+                {
+                    this.state.current === this.steps.length - 1
+                    &&
+                    <Button type="primary" onClick={() => {}}>Done</Button>
+                }
+                {
+                    this.state.current > 0
+                    &&
+                    <Button style={{ marginLeft: 8 }} onClick={this.prev}>
+                    Previous
+                    </Button>
+                }
+                </div>
             </Card>
             
         )
