@@ -3,8 +3,22 @@ import { Card, TextInput, Button } from '../components/FormComponents';
 import {userSignUpStart} from '../redux/actions/actionCreators'
 import {connect} from 'react-redux'
 import { Steps } from 'antd';
+import style from 'styled-components'
 
 const Step = Steps.Step;
+
+const ActionsContainer = style.div`
+    display : flex;
+    justify-content: space-between;
+`;
+
+const StepsContainer = style.div`
+    margin : 5px;
+`;
+
+const ContentContainer = style.div`
+    margin : 10px;
+`;
 
 function Step1(props){
     let {email, password, handleChange} = props;
@@ -30,34 +44,12 @@ function Step1(props){
     )
 }
 
-function steps(props){ 
-    return [{
-        title: 'Create account',
-        content: <Step1 {...props}/>,
-    }, {
-        title: 'Verify email',
-        content: 'Second-content',
-    }, {
-        title: 'Please wait',
-        content: 'Last-content',
-    }];
-}
-
 export class Create extends Component {
   
     state = {
         email : '',
         password :'',
         current : 0
-    }
-
-    constructor(){
-        super();
-        this.steps = steps({
-            email : this.state.email, 
-            password : this.state.password, 
-            handleChange : this.handleChange,
-        });
     }
 
     next = () => {
@@ -69,6 +61,19 @@ export class Create extends Component {
         this.setState({ current : this.state.current - 1 });
     }
 
+    steps(props){ 
+        return [{
+            title: 'Create account',
+            content: <Step1 {...props}/>,
+        }, {
+            title: 'Verify email',
+            content: 'Second-content',
+        }, {
+            title: 'Please wait',
+            content: 'Last-content',
+        }];
+    }    
+
     handleChange = (event) => {
         let target = event.target;
         this.setState({ [target.name] : target.value });
@@ -79,23 +84,20 @@ export class Create extends Component {
     }
 
     render() {
+        const steps = this.steps({
+            email : this.state.email, 
+            password : this.state.password, 
+            handleChange : this.handleChange,
+        })
         return (
             <Card>
-                <Steps current={this.state.current}>
-                    {this.steps.map(item => <Step key={item.title} title={item.title} />)}
-                </Steps>
-                <div className="steps-content">{this.steps[this.state.current].content}</div>
-                <div className="steps-action">
-                {
-                    this.state.current < this.steps.length - 1
-                    &&
-                    <Button type="primary" onClick={this.next}>Next</Button>
-                }
-                {
-                    this.state.current === this.steps.length - 1
-                    &&
-                    <Button type="primary" onClick={() => {}}>Done</Button>
-                }
+                <StepsContainer>
+                    <Steps current={this.state.current}>
+                        {steps.map(item => <Step key={item.title} title={item.title} />)}
+                    </Steps>
+                </StepsContainer>
+                <ContentContainer className="steps-content">{steps[this.state.current].content}</ContentContainer>
+                <ActionsContainer className="steps-action">
                 {
                     this.state.current > 0
                     &&
@@ -103,7 +105,18 @@ export class Create extends Component {
                     Previous
                     </Button>
                 }
-                </div>
+                {
+                    this.state.current < steps.length - 1
+                    &&
+                    <Button type="primary" onClick={this.next}>Next</Button>
+                }
+                {
+                    this.state.current === steps.length - 1
+                    &&
+                    <Button type="primary" onClick={() => {}}>Done</Button>
+                }
+                
+                </ActionsContainer>
             </Card>
             
         )
