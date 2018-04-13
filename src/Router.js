@@ -20,7 +20,7 @@ class AppRouter extends Component {
 					<Link to="/user/create">Create User</Link>
 					<Link to="/dashboard">Dashboard</Link> */}
 					<Switch>
-						<PrivateRoute redirectTo="/login" path="/dashboard" component={Dashboard}/>
+						<PrivateRoute redirectTo="/login" path="/dashboard" component={Auth}/>
 						<PrivateRoute redirectTo="/dashboard" path="/login" isLoggedIn={!isLoggedIn} component={Auth}/>					
 					</Switch>
 				</div>
