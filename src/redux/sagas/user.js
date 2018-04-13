@@ -26,16 +26,14 @@ export function* userCheckLoginStatusStart(action){
 }
 
 export function* userSignUpStart(action){
-    //console.log(action)
     try{
-        // var user = yield call(onAuthStateChanged)
         let credentials = action.payload;
         var user = yield call([auth, auth.createUserWithEmailAndPassword], credentials.email, credentials.password)
         yield put(userSignUpFinish(user))
     }
     catch(e){
         console.log(e)
-        yield put(userSignUpFinish(e))
+        yield put(userSignUpFinish(null))
     }
 }
 
@@ -45,8 +43,9 @@ export function* userLoginStart(action){
         var user = yield call([auth, auth.signInWithEmailAndPassword], credentials.email, credentials.password)
         yield put(userLoginFinish(user))
     }
-    catch(e){
-        yield put(userLoginFinish(e))
+    catch(e){   
+        console.log(e)        
+        yield put(userLoginFinish(null))
     }
 }
 
