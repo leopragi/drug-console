@@ -14,7 +14,7 @@ const Container = styled.div`
 `;
 
 const LeftContainer = styled.div`
-    flex: 1;
+    flex: 4;
     background-color:black;
 `;
 
@@ -22,11 +22,14 @@ const RightContainer = styled.div`
     display: flex;
     justify-content:center;
     align-items:center;
-    flex : 1;
+    flex : 5;
 `;
 
 const AuthContainer = styled.div`
     display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin: 50px;
 `;
 
 class Auth extends Component {
