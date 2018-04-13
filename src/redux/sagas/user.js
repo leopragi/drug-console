@@ -1,7 +1,7 @@
 import { put, call } from 'redux-saga/effects'
-import { auth } from '../../config/firebase'
+import { auth, database } from '../../config/firebase'
 
-import {userSignUpFinish, userLoginFinish, userCheckLoginStatusFinish, isEmailVerified, userSendVerificationMailStart} from '../actions/actionCreators'
+import {userSignUpFinish, userLoginFinish, userCheckLoginStatusFinish, isEmailVerified, userSendVerificationMailStart, userReadQueriesFinish} from '../actions/actionCreators'
 
 function onAuthStateChanged(){
     return new Promise((resolve, reject) =>{
@@ -16,6 +16,16 @@ function onAuthStateChanged(){
     });
 }
 
+function readQuery(ref){
+    return new Promise((resolve, reject) => {
+        ref.on('value', (snapshot) => {
+            if(snapshot)
+                return resolve(snapshot.val());
+            else
+                return reject(snapshot.val())
+        })
+    }) 
+}
 export function* userCheckLoginStatusStart(action){
     console.log(action)    
     try{
@@ -67,5 +77,18 @@ export function* userLoginStart(action){
 export function* userSignOut(action){
     try{
     }catch(error){
+    }
+}
+
+export function* userReadQueriesStart(action){
+       
+    try{
+        var queryRef = database.ref('/queries');
+        var queries = yield call(readQuery, queryRef);
+        console.log(queries)
+        yield put(userReadQueriesFinish(queries))
+    }
+    catch(e){   
+        console.log(e)        
     }
 }
