@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
+import {connect} from 'react-redux'
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import styled from 'styled-components';
 
+import {Button} from '../components/FormComponents'
 import {userSignOut} from '../redux/actions/actionCreators'
 
 const DefaultHeader = Layout.Header;
@@ -83,11 +85,6 @@ class Dashboard extends Component {
                     </div>
                 </Content>
                 <Footer>
-                    <Button
-                        size="large"
-                        onClick={this.props.userSignOut()}>
-                        Login
-                    </Button>
                 </Footer>
             </Layout>
         </Layout>

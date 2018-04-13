@@ -17,6 +17,7 @@ function onAuthStateChanged(){
 }
 
 export function* userCheckLoginStatusStart(action){
+    console.log(action)    
     try{
         var user = yield call(onAuthStateChanged);
         yield put(userCheckLoginStatusFinish(user))
@@ -51,15 +52,10 @@ export function* userSendVerificationMailStartRedux(action){
 }
 
 export function* userLoginStart(action){
+    console.log(action)        
     try{
         let credentials = action.payload;
         var user = yield call([auth, auth.signInWithEmailAndPassword], credentials.email, credentials.password)
-        var isVerified = yield call([user, user.isEmailVerified])
-        if(!isVerified){
-            
-        } else {
-
-        }
         yield put(userLoginFinish(user))
     }
     catch(e){   
