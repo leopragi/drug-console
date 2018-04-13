@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
-
-import {TextInput, Card, Button} from '../components/FormComponents'
-
 import {connect} from 'react-redux'
 
+import {TextInput, Card, Button} from '../components/FormComponents'
 import {userLoginStart} from '../redux/actions/actionCreators'
 
 class Login extends Component {
@@ -19,6 +17,7 @@ class Login extends Component {
     }
 
     handleLogin = (event) => {
+        console.log(event)
         this.props.userLoginStart(this.state)
     }
     
@@ -43,7 +42,7 @@ class Login extends Component {
                 />
                 <Button
                     size="large"
-                    onclick={this.handleLogin}>
+                    onClick={this.handleLogin}>
                     Login
                 </Button>
             </Card>
