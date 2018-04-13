@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import styled from 'styled-components';
 
+import {userSignOut} from '../redux/actions/actionCreators'
+
 const DefaultHeader = Layout.Header;
 const DefaultContent = Layout.Content;
 const DefaultFooter = Layout.Footer; 
@@ -73,15 +75,19 @@ class Dashboard extends Component {
                 <Header/>
                 <Content>
                     <Breadcrumb style={{ margin: '16px 0' }}>
-                    <Breadcrumb.Item>User</Breadcrumb.Item>
-                    <Breadcrumb.Item>Bill</Breadcrumb.Item>
+                        <Breadcrumb.Item>User</Breadcrumb.Item>
+                        <Breadcrumb.Item>Bill</Breadcrumb.Item>
                     </Breadcrumb>
                     <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                     Bill is a cat.
                     </div>
                 </Content>
                 <Footer>
-                    {/* Ant Design ©2016 Created by Nikhi and Leo */}
+                    <Button
+                        size="large"
+                        onClick={this.props.userSignOut()}>
+                        Login
+                    </Button>
                 </Footer>
             </Layout>
         </Layout>
@@ -89,4 +95,4 @@ class Dashboard extends Component {
     }
 }
 
-export default Dashboard;
+export default connect(null, {userSignOut})(Dashboard);
