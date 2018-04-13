@@ -7,7 +7,7 @@ import queryReducer from './queryReducer'
 const rootReducer = {
     string : stringReducer,
     user : userReducer,
-    query : queryReducer
+    queries : queryReducer
 }
 
 export default combineReducers(rootReducer);
