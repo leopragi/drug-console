@@ -3,8 +3,8 @@ import {connect} from 'react-redux'
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import styled from 'styled-components';
 
-import {Button} from '../components/FormComponents'
-import {userSignOut} from '../redux/actions/actionCreators'
+import {Button, Card} from '../components/FormComponents'
+import {userSignOut, userReadQueriesStart} from '../redux/actions/actionCreators'
 
 const DefaultHeader = Layout.Header;
 const DefaultContent = Layout.Content;
@@ -26,6 +26,10 @@ const Footer = styled(DefaultFooter)`
 `;
 
 class Dashboard extends Component {
+    
+    componentDidMount(){
+        this.props.userReadQueriesStart(this.state.user)
+    }
     state = {
         collapsed: false,
     };
@@ -82,6 +86,7 @@ class Dashboard extends Component {
                     </Breadcrumb>
                     <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                     Bill is a cat.
+                    
                     </div>
                 </Content>
                 <Footer>
@@ -92,4 +97,12 @@ class Dashboard extends Component {
     }
 }
 
-export default connect(null, {userSignOut})(Dashboard);
+const mapStateToProps = (state, ownProps) => {
+    console.log(state)
+	return {
+        user: state.user,
+        queries : state.queries
+    }
+}
+
+export default connect(null, {userSignOut,userReadQueriesStart})(Dashboard);
