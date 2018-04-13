@@ -5,6 +5,8 @@ import styled from 'styled-components';
 
 import {Button, Card} from '../components/FormComponents'
 import {userSignOut, userReadQueriesStart} from '../redux/actions/actionCreators'
+import Create from './Create';
+import { PrivateRouteWrapper, Link } from '../components/RouteComponents';
 
 const DefaultHeader = Layout.Header;
 const DefaultContent = Layout.Content;
@@ -27,9 +29,12 @@ const Footer = styled(DefaultFooter)`
 
 class Dashboard extends Component {
     
-    componentDidMount(){
-        this.props.userReadQueriesStart(this.state.user)
+    constructor(props){
+        super(props)
+        console.log(props)
+        props.userReadQueriesStart(props.user)
     }
+    
     state = {
         collapsed: false,
     };
@@ -38,7 +43,14 @@ class Dashboard extends Component {
         this.setState({ collapsed });
     }
 
+    handleSignout = () => {
+        this.props.userSignOut();
+    }
+
     render() {
+        let {user} = this.props;
+		var isLoggedIn = !!user; 
+        let PrivateRoute = PrivateRouteWrapper(isLoggedIn);
         return (
             <Layout style={{ minHeight: '100vh'}}>
                 <DefaultSider 
@@ -46,7 +58,8 @@ class Dashboard extends Component {
                     collapsed={this.state.collapsed}
                     onCollapse={this.onCollapse}
                 >
-                <div className="logo" />
+                <div className="logo" >
+                </div>
                 <Menu  theme="dark" defaultSelectedKeys={['1']} mode="inline">
                     <Menu.Item key="1">
                         <Icon type="pie-chart" />
@@ -78,15 +91,18 @@ class Dashboard extends Component {
                 </Menu>
             </DefaultSider>
             <Layout>
-                <Header/>
+                <Header>
+                    <Button 
+                        onClick={this.handleSignout}
+                    >Sign out</Button>
+                </Header>
                 <Content>
                     <Breadcrumb style={{ margin: '16px 0' }}>
                         <Breadcrumb.Item>User</Breadcrumb.Item>
                         <Breadcrumb.Item>Bill</Breadcrumb.Item>
                     </Breadcrumb>
                     <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-                    Bill is a cat.
-                    
+                        <PrivateRoute redirectTo='/login' path="/dashboard/signup" component={Create}/>
                     </div>
                 </Content>
                 <Footer>
@@ -98,11 +114,10 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    console.log(state)
 	return {
         user: state.user,
         queries : state.queries
     }
 }
 
-export default connect(null, {userSignOut,userReadQueriesStart})(Dashboard);
+export default connect(mapStateToProps, {userSignOut,userReadQueriesStart})(Dashboard);

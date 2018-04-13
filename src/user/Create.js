@@ -55,7 +55,7 @@ export class Create extends Component {
     componentWillReceiveProps(newProps){
         let {user} = newProps;
         if(user){
-            this.setState =( prevState) =>({
+            this.setState({
                 email : user.email,
                 password : '*******',
                 current : user.emailVerified ? 2 : 1
@@ -65,11 +65,11 @@ export class Create extends Component {
 
     constructor(props){
         super(props)
-            let {user} = props;
+        let {user} = props;
         if(user){
             this.state = {
                 email : user.email,
-                password : '********',
+                password : '*******',
                 current : user.emailVerified ? 2 : 1
             }
         }
@@ -148,7 +148,6 @@ export class Create extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    console.log(state)
     return {
         user: state.user
     }

@@ -32,7 +32,7 @@ export function* userCheckLoginStatusStart(action){
         var user = yield call(onAuthStateChanged);
         yield put(userCheckLoginStatusFinish(user))
     }catch(error){
-        yield put(userCheckLoginStatusFinish(error))
+        yield put(userCheckLoginStatusFinish(null))
     }
 }
 
@@ -62,7 +62,6 @@ export function* userSendVerificationMailStartRedux(action){
 }
 
 export function* userLoginStart(action){
-    console.log(action)        
     try{
         let credentials = action.payload;
         var user = yield call([auth, auth.signInWithEmailAndPassword], credentials.email, credentials.password)
@@ -76,12 +75,13 @@ export function* userLoginStart(action){
 
 export function* userSignOut(action){
     try{
-    }catch(error){
+        yield call([auth, auth.signOut])
+    }catch(e){
+        console.log(e)        
     }
 }
 
 export function* userReadQueriesStart(action){
-       
     try{
         var queryRef = database.ref('/queries');
         var queries = yield call(readQuery, queryRef);

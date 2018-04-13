@@ -10,10 +10,9 @@ import { userSendVerificationMailStart } from './redux/actions/actionCreators';
 
 class AppRouter extends Component {
     render() {
-		var isLoggedIn = this.props.isLoggedIn;
-        isLoggedIn= !!this.props.user;
+		let {user} = this.props;
+		var isLoggedIn = !!user; 
 		let PrivateRoute = PrivateRouteWrapper(isLoggedIn);
-
         return (
             <Router>
 				<div>
@@ -22,7 +21,7 @@ class AppRouter extends Component {
 					<Link to="/dashboard">Dashboard</Link> */}
 					<Switch>
 						<PrivateRoute redirectTo="/login" path="/dashboard" component={Dashboard}/>
-						<PrivateRoute redirectTo="/dashboard" path="/login" isLoggedIn={!isLoggedIn} component={Auth}/>					
+						<PublicRoute path="/" component={Auth}/>						
 					</Switch>
 				</div>
 			</Router>
