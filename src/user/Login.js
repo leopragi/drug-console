@@ -16,10 +16,6 @@ class Login extends Component {
         this.setState({[target.name] : target.value});
     }
 
-    handleLogin = (event) => {
-        console.log(event)
-        this.props.userLoginStart(this.state)
-    }
     
     render(){
         return(
@@ -42,7 +38,7 @@ class Login extends Component {
                 />
                 <Button
                     size="large"
-                    onClick={this.handleLogin}>
+                    onClick={this.props.userLoginStart(this.state)}>
                     Login
                 </Button>
             </Card>
