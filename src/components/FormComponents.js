@@ -6,6 +6,12 @@ const InputContainer = style.div`
     padding : 5px;
 `;
 
+const ButtonContainer = style.div`
+    display : flex;
+    padding : 10px;    
+    justify-content: flex-end;
+`;
+
 export function TextInput(props){
     let {name, placeholder, size, value, type, onChange} = props;
     return (
@@ -19,13 +25,13 @@ export function TextInput(props){
                     onChange={onChange}
                 />
             </InputContainer>
-            )
+        )
 }
 
 export function Button(props){
     let {name, size, loading} = props;
     return(
-            <InputContainer>
+            <ButtonContainer>
                 <DefaultButton
                     name={name}
                     loading={loading} 
@@ -33,7 +39,7 @@ export function Button(props){
                     size={size}>
                     {props.children}
                 </DefaultButton>
-            </InputContainer>
+            </ButtonContainer>
         )
 }
 

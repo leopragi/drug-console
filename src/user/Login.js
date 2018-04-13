@@ -42,6 +42,7 @@ class Login extends Component {
                     onChange={this.handleChange}                    
                 />
                 <Button
+                    size="large"
                     onclick={this.handleLogin}>
                     Login
                 </Button>
