@@ -11,7 +11,7 @@ function reducer(state = initialState, action){
         case USER_CHECK_LOGIN_STATUS_FINISH:
             return action.payload;
     }
-    return initialState;
+    return state;
 }
 
 export default reducer;
