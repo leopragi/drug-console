@@ -49,4 +49,8 @@ export function* userLoginStart(action){
     }
 }
 
-
+export function* userSignOut(action){
+    try{
+    }catch(error){
+    }
+}
