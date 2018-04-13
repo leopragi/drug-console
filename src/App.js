@@ -3,6 +3,7 @@ import {Provider} from 'react-redux';
 
 import store from './redux/store'
 import Router from './Router';
+import { userCheckLoginStatusStart } from './redux/actions/actionCreators';
 
 class App extends Component {
 	render() {
@@ -14,5 +15,5 @@ class App extends Component {
 	}
 }
 
-
+store.dispatch(userCheckLoginStatusStart());
 export default App;
