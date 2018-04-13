@@ -1,4 +1,7 @@
-import {USER_SIGNUP_START, USER_SIGNUP_FINISH, USER_LOGIN_START, USER_LOGIN_FINISH, USER_CHECK_LOGIN_STATUS_START, USER_CHECK_LOGIN_STATUS_FINISH } from './actions'
+import {USER_SIGNUP_START, USER_SIGNUP_FINISH, 
+    USER_LOGIN_START, USER_SIGN_OUT,
+    USER_LOGIN_FINISH, USER_CHECK_LOGIN_STATUS_START, 
+    USER_CHECK_LOGIN_STATUS_FINISH } from './actions'
 
 export function userSignUpStart(credentials){
     return{
@@ -39,5 +42,11 @@ export function userCheckLoginStatusFinish(user){
     return{
         type: USER_CHECK_LOGIN_STATUS_FINISH ,
         payload : user
+    }
+}
+
+export function userSignOut(){
+    return {
+        type : USER_SIGN_OUT
     }
 }
