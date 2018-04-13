@@ -47,13 +47,41 @@ function Step1(props){
 export class Create extends Component {
   
     state = {
-        email : '',
-        password :'',
+        email :'',
+        password : '',
         current : 0
     }
 
+    componentWillReceiveProps(newProps){
+        let {user} = newProps;
+        if(user){
+            this.setState =( prevState) =>({
+                email : user.email,
+                password : '*******',
+                current : user.emailVerified ? 2 : 1
+            })
+        }
+    }
+
+    constructor(props){
+        super(props)
+            let {user} = props;
+        if(user){
+            this.state = {
+                email : user.email,
+                password : '********',
+                current : user.emailVerified ? 2 : 1
+            }
+        }
+    }
+
     next = () => {
-        console.log(this.state.current),
+        switch(this.state.current){
+            case 0:
+            this.props.userSignUpStart(this.state)
+            break;
+
+        }
         this.setState({ current : this.state.current + 1 });
     }
     
@@ -77,10 +105,6 @@ export class Create extends Component {
     handleChange = (event) => {
         let target = event.target;
         this.setState({ [target.name] : target.value });
-    }
-
-    handleSignUp = (event) => {
-        this.props.userSignUpStart(this.state)
     }
 
     render() {
@@ -123,4 +147,12 @@ export class Create extends Component {
     }
 }
 
-export default connect(null,{userSignUpStart})(Create);
+const mapStateToProps = (state, ownProps) => {
+    console.log(state)
+    return {
+        user: state.user
+    }
+}
+
+
+export default connect(mapStateToProps,{userSignUpStart})(Create);
