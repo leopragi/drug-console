@@ -29,11 +29,12 @@ export function TextInput(props){
 }
 
 export function Button(props){
-    let {name, size, loading} = props;
+    let {name, size, loading, onClick} = props;
     return(
             <ButtonContainer>
                 <DefaultButton
                     name={name}
+                    onClick={onClick}
                     loading={loading} 
                     type="primary"
                     size={size}>
