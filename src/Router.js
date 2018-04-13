@@ -11,7 +11,6 @@ class AppRouter extends Component {
     render() {
         var isLoggedIn = this.props.isLoggedIn;
         isLoggedIn= !!this.props.user;
-
 		let PrivateRoute = PrivateRouteWrapper(isLoggedIn);
         return (
             <Router>

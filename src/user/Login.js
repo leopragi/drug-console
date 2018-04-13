@@ -33,7 +33,7 @@ class Login extends Component {
                     value={this.state.password}
                     onChange={this.handleChange}                    
                 />
-                <Button>Login</Button>
+                <Button size="large">Login</Button>
             </Card>
         )
     }
