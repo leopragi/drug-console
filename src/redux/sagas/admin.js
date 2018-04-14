@@ -1,7 +1,7 @@
 import { put, call } from 'redux-saga/effects'
 import { auth, database } from '../../config/firebase'
 
-import {adminReadAllUserFinish } from '../actions/actionCreators'
+import {adminReadAllUserFinish, adminReadAllStoriesFinish, adminReadAllTeamsFinish } from '../actions/actionCreators'
 
 function readUsers(ref){
     return new Promise((resolve, reject) => {
@@ -22,5 +22,23 @@ export function* adminReadAllUserStart(){
     }
     catch(e){   
         yield put(adminReadAllUserFinish(null))
+    }
+}
+
+export function* adminReadAllStoriesStart(){
+    try{
+        
+    }
+    catch(error){
+
+    }
+}
+
+export function* adminReadAllTeamsStart(){
+    try{
+
+    }
+    catch(error){
+        
     }
 }
