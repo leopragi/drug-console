@@ -1,7 +1,9 @@
 import {USER_SIGNUP_START, USER_SIGNUP_FINISH, 
     USER_LOGIN_START, USER_SIGN_OUT, ADMIN_GET_ALL_USER_FINISH,
     USER_LOGIN_FINISH, USER_CHECK_LOGIN_STATUS_START, ADMIN_GET_ALL_USERS_START,
-    USER_CHECK_LOGIN_STATUS_FINISH, USER_SEND_VERIFICATION_MAIL_START, USER_SEND_VERIFICATION_MAIL_FINSIH, USER_READ_QUERY_FINISH, USER_READ_QUERY_START } from './actions'
+    USER_CHECK_LOGIN_STATUS_FINISH, USER_SEND_VERIFICATION_MAIL_START,
+    USER_SEND_VERIFICATION_MAIL_FINSIH, USER_READ_QUERY_FINISH, USER_READ_QUERY_START,
+    ADMIN_READ_ALL_STORIES_FINISH, ADMIN_READ_ALL_STORIES_START, ADMIN_READ_ALL_TEAMS_FINISH, ADMIN_READ_ALL_TEAMS_START } from './actions'
 
 export function userSignUpStart(credentials){
     return{
@@ -92,3 +94,28 @@ export function adminReadAllUserFinish(users){
         payload : users
     }
 }
+export function adminReadAllTeamsStart(){
+    return {
+        type : ADMIN_READ_ALL_TEAMS_START
+    }
+}
+
+export function adminReadAllTeamsFinish(users){
+    return {
+        type : ADMIN_READ_ALL_TEAMS_FINISH,
+        payload : users
+    }
+}
+export function adminReadAllStoriesStart(){
+    return {
+        type : ADMIN_READ_ALL_STORIES_START
+    }
+}
+
+export function adminReadAllStoriesFinish(users){
+    return {
+        type : ADMIN_READ_ALL_STORIES_FINISH,
+        payload : users
+    }
+}
+
