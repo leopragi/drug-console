@@ -90,10 +90,7 @@ export function* userSignOut(action){
 }
 
 export function* userReadQueriesStart(action){
-
-    
-    let userId = action.payload.uid;
-    
+    let userId = action.payload;
     try{
         var queryRef = database.ref('/queries').orderByChild('allocationMap/admin').equalTo(userId);
         var queries = yield call(readQuery, queryRef);
