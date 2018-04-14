@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {List as DefaultList, Button, Spin} from 'antd'
+import {List as DefaultList, Button, Spin, Icon, Text} from 'antd'
 
 import {Link} from '../components/RouteComponents'
+import moment from 'moment'
 import {userReadQueriesStart} from '../redux/actions/actionCreators'
 
 class Queries extends Component {
@@ -25,6 +26,8 @@ class Queries extends Component {
 
    }
 
+   
+
     onLoadMore = () => {
         this.setState({
           loadingMore: true,
@@ -34,29 +37,40 @@ class Queries extends Component {
     render() {
         const { loading, loadingMore, showLoadingMore, data } = this.state;
         let {queries} = this.props;
-        const loadMore = showLoadingMore ? (
+        let date = moment(queries.dueOn).format('DD MMM YYYY')
+
+        const IconText = ({ text }) => (
+            <span>
+              <Icon style={{ marginRight: 8 }} />
+              {text}
+            </span>
+          );
+       { /*const loadMore = showLoadingMore ? (
             <div style={{ textAlign: 'center', marginTop: 12, height: 32, lineHeight: '32px' }}>
               {loadingMore && <Spin />}
               {!loadingMore && <Button onClick={this.onLoadMore}>Load More</Button>}
             </div>
-          ) : null;
+       ) : null;*/}
         return(
             <DefaultList
-                loadmore={loadMore}
-                itemLayout="horizontal"
+              //  loadmore={loadMore}
+                itemLayout="vertical"
                 dataSource={queries}
                 renderItem={query => (
-                    <DefaultList.Item>
+                    <DefaultList.Item
+                        actions={[<IconText text = {'@'+query.at} />,<IconText text = {'Ratings : '+query.feedback+'/5'} />,<IconText text = 'feedback'/>]}
+                        extra={date}
+                        
+                    >
                         <DefaultList.Item.Meta
+
                             title={<Link to={{
                                 pathname : "/dashboard/query/"+query.id,
                                 state : { query }
-                            }}>{query.queries[0].query}</Link>}
-                            description = {query.answer}    
-                        />
-                        <div>
-                            Status
-                        </div>
+                            }}><b>{query.queries[0].query}</b></Link>}
+                            description = {query.answer}
+                               
+                       />
                     </DefaultList.Item>
                 )}
             />
