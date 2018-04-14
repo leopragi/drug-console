@@ -6,10 +6,11 @@ import styled from 'styled-components';
 import {Button} from '../components/FormComponents'
 import {userSignOut} from '../redux/actions/actionCreators'
 import Create from './Create';
-import { PrivateRouteWrapper, Link } from '../components/RouteComponents';
+import { PrivateRouteWrapper, Link as DefaultLink } from '../components/RouteComponents';
 
 import Users from '../admin/Users';
 import Queries from '../dician/Queries'
+import Query from '../dician/Query';
 
 const DefaultHeader = Layout.Header;
 const DefaultContent = Layout.Content;
@@ -28,6 +29,10 @@ const Content = styled(DefaultContent)`
 
 const Footer = styled(DefaultFooter)`
     text-align: center
+`;
+
+const Link = styled(DefaultLink)`
+    color : white;
 `;
 
 class Dashboard extends Component {
@@ -60,11 +65,11 @@ class Dashboard extends Component {
                 <Menu  theme="dark" defaultSelectedKeys={['1']} mode="inline">
                     <Menu.Item key="1">
                         <Icon type="pie-chart" />
-                        <span>Queries<Link to="/dashboard/queries">Queries</Link></span>
+                        <span><Link to="/dashboard/queries">Queries</Link></span>
                     </Menu.Item>
                     <Menu.Item key="2">
                         <Icon type="desktop" />
-                        <span>Admin/Users<Link to="/admin/users">Users</Link></span>
+                        <span><Link to="/admin/users">Users</Link></span>
                     </Menu.Item>
                     <SubMenu
                         key="sub1"
@@ -101,6 +106,7 @@ class Dashboard extends Component {
                     <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                         <PrivateRoute redirectTo='/login' path="/dashboard/signup" component={Create}/>
                         <PrivateRoute redirectTo='/login' path="/dashboard/queries" component={Queries}/>
+                        <PrivateRoute redirectTo='/login' path="/dashboard/query/:id" component={Query}/>
                         <PrivateRoute redirectTo='/login' path="/admin/users" component={Users}/>
                     </div>
                 </Content>
