@@ -7,6 +7,7 @@ import {Button, Card} from '../components/FormComponents'
 import {userSignOut, userReadQueriesStart} from '../redux/actions/actionCreators'
 import Create from './Create';
 import { PrivateRouteWrapper, Link } from '../components/RouteComponents';
+import Users from '../admin/Users';
 
 const DefaultHeader = Layout.Header;
 const DefaultContent = Layout.Content;
@@ -105,10 +106,7 @@ class Dashboard extends Component {
                     </Breadcrumb>
                     <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                         <PrivateRoute redirectTo='/login' path="/dashboard/signup" component={Create}/>
-
-                        <Card>
-                            
-                            </Card>
+                        <Users />
                     </div>
                 </Content>
                 <Footer>
