@@ -4,7 +4,7 @@ import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import styled from 'styled-components';
 
 import {Button} from '../components/FormComponents'
-import {userSignOut, userReadQueriesStart,adminReadAllStoriesStart, adminReadAllTeamsStart, adminReadAllUserStart} from '../redux/actions/actionCreators'
+import {userSignOut} from '../redux/actions/actionCreators'
 import Create from './Create';
 import { PrivateRouteWrapper, Link } from '../components/RouteComponents';
 
@@ -31,15 +31,6 @@ const Footer = styled(DefaultFooter)`
 `;
 
 class Dashboard extends Component {
-    
-    constructor(props){
-        super(props)
-        props.userReadQueriesStart(props.user)
-        props.adminReadAllStoriesStart()
-        props.adminReadAllTeamsStart()
-        props.adminReadAllUserStart()
-    }
-
       
     state = {
         collapsed: false,
@@ -69,11 +60,11 @@ class Dashboard extends Component {
                 <Menu  theme="dark" defaultSelectedKeys={['1']} mode="inline">
                     <Menu.Item key="1">
                         <Icon type="pie-chart" />
-                        <span>Option 1</span>
+                        <span>Queries<Link to="/dashboard/queries">Queries</Link></span>
                     </Menu.Item>
                     <Menu.Item key="2">
                         <Icon type="desktop" />
-                        <span>Option 2</span>
+                        <span>Admin/Users<Link to="/admin/users">Users</Link></span>
                     </Menu.Item>
                     <SubMenu
                         key="sub1"
@@ -109,8 +100,8 @@ class Dashboard extends Component {
                     </Breadcrumb>
                     <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                         <PrivateRoute redirectTo='/login' path="/dashboard/signup" component={Create}/>
-                        <Queries uid={user.uid}/>
-                        <Users />
+                        <PrivateRoute redirectTo='/login' path="/dashboard/queries" component={Queries}/>
+                        <PrivateRoute redirectTo='/login' path="/admin/users" component={Users}/>
                     </div>
                 </Content>
                 <Footer>
@@ -127,4 +118,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, {userSignOut,adminReadAllUserStart,adminReadAllTeamsStart, adminReadAllStoriesStart })(Dashboard);
+export default connect(mapStateToProps, {userSignOut})(Dashboard);
