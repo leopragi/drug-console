@@ -8,7 +8,7 @@ class Queries extends Component {
 
     constructor(props){
         super(props)
-        props.userReadQueriesStart(props.uid)
+        props.userReadQueriesStart(props.user.uid)
     }
 
 
@@ -32,7 +32,8 @@ class Queries extends Component {
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-        queries : state.queries
+        queries : state.queries,
+        user : state.user
     }
 }
 
