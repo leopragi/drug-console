@@ -3,11 +3,13 @@ import {connect} from 'react-redux'
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import styled from 'styled-components';
 
-import {Button, Card, List} from '../components/FormComponents'
-import {userSignOut, userReadQueriesStart} from '../redux/actions/actionCreators'
+import {Button} from '../components/FormComponents'
+import {userSignOut} from '../redux/actions/actionCreators'
 import Create from './Create';
 import { PrivateRouteWrapper, Link } from '../components/RouteComponents';
+
 import Users from '../admin/Users';
+import Queries from '../dician/Queries'
 
 const DefaultHeader = Layout.Header;
 const DefaultContent = Layout.Content;
@@ -29,12 +31,6 @@ const Footer = styled(DefaultFooter)`
 `;
 
 class Dashboard extends Component {
-    
-    constructor(props){
-        super(props)
-        props.userReadQueriesStart(props.user)
-    }
-
       
     state = {
         collapsed: false,
@@ -51,7 +47,6 @@ class Dashboard extends Component {
     render() {
         let {user} = this.props;
         var isLoggedIn = !!user; 
-        console.log(this.props.queries)
         let PrivateRoute = PrivateRouteWrapper(isLoggedIn);
         return (
             <Layout style={{ minHeight: '100vh'}}>
@@ -105,10 +100,7 @@ class Dashboard extends Component {
                     </Breadcrumb>
                     <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
                         <PrivateRoute redirectTo='/login' path="/dashboard/signup" component={Create}/>
-
-                        <Card>
-                            <List data={this.props.queries} />
-                            </Card>
+                        <Queries uid={user.uid}/>
                         <Users />
                     </div>
                 </Content>
@@ -123,8 +115,7 @@ class Dashboard extends Component {
 const mapStateToProps = (state, ownProps) => {
 	return {
         user: state.user,
-        queries : state.queries
     }
 }
 
-export default connect(mapStateToProps, {userSignOut,userReadQueriesStart})(Dashboard);
+export default connect(mapStateToProps, {userSignOut})(Dashboard);
