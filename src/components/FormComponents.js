@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Card as DefaultCard, Button as DefaultButton, List as DefaultList} from 'antd';
+import { Input, Card as DefaultCard, Button as DefaultButton, List as DefaultList, Modal as DefaultModal} from 'antd';
 import style from 'styled-components'
 
 const InputContainer = style.div`
@@ -29,14 +29,14 @@ export function TextInput(props){
 }
 
 export function Button(props){
-    let {name, size, loading, onClick} = props;
+    let {name, size, loading, onClick, type} = props;
     return(
             <ButtonContainer>
                 <DefaultButton
                     name={name}
                     onClick={onClick}
                     loading={loading} 
-                    type="primary"
+                    type={type}
                     size={size}>
                     {props.children}
                 </DefaultButton>
@@ -55,4 +55,45 @@ export function Card(props){
             {props.children}
         </DefaultCard>  
     );
+}
+
+export class Modal extends React.Component {
+    
+    state = { visible: false }
+    
+    showModal = () => {
+        this.setState({
+            visible: true,
+        });
+    }
+
+    handleOk = (e) => {
+        this.setState({
+            visible: false,
+        });
+        this.props.handleOk();
+    }
+
+    handleCancel = (e) => {
+        this.setState({
+            visible: false,
+        });
+        this.props.handleCancel();
+    }
+    
+    render() {
+        let {title, buttonText} = this.props;
+        return (
+            <div>
+                <Button type="primary" size="small" onClick={this.showModal}>{buttonText}</Button>
+                <DefaultModal
+                    title={title}
+                    visible={this.state.visible}
+                    onOk={this.handleOk}
+                    onCancel={this.handleCancel}>
+                    {this.props.children}
+                </DefaultModal>
+            </div>
+        );
+    }
 }
