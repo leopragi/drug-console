@@ -1,6 +1,6 @@
 import {USER_SIGNUP_START, USER_SIGNUP_FINISH, 
-    USER_LOGIN_START, USER_SIGN_OUT,
-    USER_LOGIN_FINISH, USER_CHECK_LOGIN_STATUS_START, 
+    USER_LOGIN_START, USER_SIGN_OUT, ADMIN_GET_ALL_USER_FINISH,
+    USER_LOGIN_FINISH, USER_CHECK_LOGIN_STATUS_START, ADMIN_GET_ALL_USERS_START,
     USER_CHECK_LOGIN_STATUS_FINISH, USER_SEND_VERIFICATION_MAIL_START, USER_SEND_VERIFICATION_MAIL_FINSIH, USER_READ_QUERY_FINISH, USER_READ_QUERY_START } from './actions'
 
 export function userSignUpStart(credentials){
@@ -77,5 +77,18 @@ export function userSendVerificationMailFinish(user){
     return{
         type: USER_SEND_VERIFICATION_MAIL_FINSIH,
         payload: user
+    }
+}
+
+export function adminReadAllUserStart(){
+    return {
+        type : ADMIN_GET_ALL_USERS_START
+    }
+}
+
+export function adminReadAllUserFinish(users){
+    return {
+        type : ADMIN_GET_ALL_USER_FINISH,
+        payload : users
     }
 }
