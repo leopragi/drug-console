@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {List as DefaultList} from 'antd'
 
-import {Button, Card} from '../components/FormComponents'
 import {userReadQueriesStart} from '../redux/actions/actionCreators'
 
 class Queries extends Component {
