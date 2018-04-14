@@ -45,16 +45,18 @@ class Queries extends Component {
                 loadmore={loadMore}
                 itemLayout="horizontal"
                 dataSource={queries}
-                
-                 renderItem={query => (
+                renderItem={query => (
                     <DefaultList.Item>
                         <DefaultList.Item.Meta
                             title={<Link to={{
                                 pathname : "/dashboard/query/"+query.id,
                                 state : { query }
-                            }}>Link</Link>}
-                            description = {query.queries[0].queryString}    
+                            }}>{query.queries[0].query}</Link>}
+                            description = {query.answer}    
                         />
+                        <div>
+                            Status
+                        </div>
                     </DefaultList.Item>
                 )}
             />
