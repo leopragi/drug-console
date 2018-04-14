@@ -4,7 +4,7 @@ import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import styled from 'styled-components';
 
 import {Button, Card, List} from '../components/FormComponents'
-import {userSignOut, userReadQueriesStart} from '../redux/actions/actionCreators'
+import {userSignOut, userReadQueriesStart,adminReadAllStoriesStart, adminReadAllTeamsStart, adminReadAllUserStart} from '../redux/actions/actionCreators'
 import Create from './Create';
 import { PrivateRouteWrapper, Link } from '../components/RouteComponents';
 import Users from '../admin/Users';
@@ -33,6 +33,9 @@ class Dashboard extends Component {
     constructor(props){
         super(props)
         props.userReadQueriesStart(props.user)
+        props.adminReadAllStoriesStart()
+        props.adminReadAllTeamsStart()
+        props.adminReadAllUserStart()
     }
 
       
@@ -127,4 +130,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, {userSignOut,userReadQueriesStart})(Dashboard);
+export default connect(mapStateToProps, {userSignOut,userReadQueriesStart,adminReadAllUserStart,adminReadAllTeamsStart, adminReadAllStoriesStart })(Dashboard);
