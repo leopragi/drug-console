@@ -26,6 +26,7 @@ function readQuery(ref){
         })
     }) 
 }
+
 export function* userCheckLoginStatusStart(action){
     try{
         var user = yield call(onAuthStateChanged);
