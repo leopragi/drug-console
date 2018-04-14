@@ -56,25 +56,3 @@ export function Card(props){
         </DefaultCard>  
     );
 }
-
-export function List(props){
-    let {data} = props;
-
-    return(
-        <DefaultList
-            itemLayout="horizontal"
-            dataSource={data}
-            renderItem={item => (
-                <DefaultList.Item>
-                    <DefaultList.Item.Meta
-                        description = {item.queries[0].queryString}    
-                    />
-                </DefaultList.Item>
-        )}
-    />
-    )
-}
-
-
-
-    
