@@ -19,10 +19,18 @@ function onAuthStateChanged(){
 function readQuery(ref){
     return new Promise((resolve, reject) => {
         ref.on('value', (snapshot) => {
-            if(snapshot)
-                return resolve(snapshot.val());
-            else
-                return reject(snapshot.val())
+            if(snapshot){
+                var queries = [];
+                snapshot.forEach(function(query){
+                    var _t = query.val();
+                    _t.queryId = query.key;
+                    queries.push(_t);
+                });
+                return resolve(queries);
+            }
+            else{
+                return reject(new Error("error !"))
+            }
         })
     }) 
 }
@@ -81,8 +89,12 @@ export function* userSignOut(action){
 }
 
 export function* userReadQueriesStart(action){
+
+    
+    let userId = action.payload.uid;
+    
     try{
-        var queryRef = database.ref('/queries');
+        var queryRef = database.ref('/queries').orderByChild('allocationMap/admin').equalTo(userId);
         var queries = yield call(readQuery, queryRef);
         yield put(userReadQueriesFinish(queries))
     }

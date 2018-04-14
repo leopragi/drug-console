@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Card as DefaultCard, Button as DefaultButton} from 'antd';
+import { Input, Card as DefaultCard, Button as DefaultButton, List as DefaultList} from 'antd';
 import style from 'styled-components'
 
 const InputContainer = style.div`
@@ -55,6 +55,24 @@ export function Card(props){
             {props.children}
         </DefaultCard>  
     );
+}
+
+export function List(props){
+    let {data} = props;
+
+    return(
+        <DefaultList
+            itemLayout="horizontal"
+            dataSource={data}
+            renderItem={item => (
+                <DefaultList.Item>
+                    <DefaultList.Item.Meta
+                        description = {item.queries[0].queryString}    
+                    />
+                </DefaultList.Item>
+        )}
+    />
+    )
 }
 
 

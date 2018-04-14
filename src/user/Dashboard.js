@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import styled from 'styled-components';
 
-import {Button, Card} from '../components/FormComponents'
+import {Button, Card, List} from '../components/FormComponents'
 import {userSignOut, userReadQueriesStart} from '../redux/actions/actionCreators'
 import Create from './Create';
 import { PrivateRouteWrapper, Link } from '../components/RouteComponents';
@@ -34,9 +34,7 @@ class Dashboard extends Component {
         props.userReadQueriesStart(props.user)
     }
 
-    componentWillReceiveProps(newProps){
-    }
-    
+      
     state = {
         collapsed: false,
     };
@@ -51,7 +49,8 @@ class Dashboard extends Component {
 
     render() {
         let {user} = this.props;
-		var isLoggedIn = !!user; 
+        var isLoggedIn = !!user; 
+        console.log(this.props.queries)
         let PrivateRoute = PrivateRouteWrapper(isLoggedIn);
         return (
             <Layout style={{ minHeight: '100vh'}}>
@@ -107,7 +106,7 @@ class Dashboard extends Component {
                         <PrivateRoute redirectTo='/login' path="/dashboard/signup" component={Create}/>
 
                         <Card>
-                            
+                            <List data={this.props.queries} />
                             </Card>
                     </div>
                 </Content>
