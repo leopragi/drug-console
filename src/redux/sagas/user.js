@@ -74,7 +74,7 @@ export function* userSignOut(action){
 export function* userReadQueriesStart(action){
     let userId = action.payload;
     try{
-        var queryRef = database.ref('/queries').orderByChild('allocationMap/admin').equalTo(userId);
+        var queryRef = database.ref('/queries').orderByChild('allocation/admin').equalTo(userId);
         var queries = yield call(firebaseReadFromRef, queryRef);
         yield put(userReadQueriesFinish(queries))
     }
