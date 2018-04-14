@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import style from 'styled-components'
+import {List as DefaultList} from 'antd'
 
-import { Card, Button } from '../components/FormComponents';
 import { adminReadAllUserStart } from '../redux/actions/actionCreators'
 
 class Users extends Component {
@@ -18,8 +18,19 @@ class Users extends Component {
     }
 
     render() {
-        return (
-            <div>Users</div>
+        let {users} = this.props;
+        return(
+            <DefaultList
+                itemLayout="horizontal"
+                dataSource={users}
+                renderItem={user => (
+                    <DefaultList.Item>
+                        <DefaultList.Item.Meta
+                            description = {user.email}    
+                        />
+                    </DefaultList.Item>
+                )}
+            />
         )
     }
 }
