@@ -1,8 +1,10 @@
 import { put, call } from 'redux-saga/effects'
 import { auth, database } from '../../config/firebase'
 
-import {adminReadAllUserFinish } from '../actions/actionCreators'
+import {adminReadAllUserFinish,adminReadNonendUsersFinish } from '../actions/actionCreators'
 import {firebaseReadFromRef} from '../../utils'
+
+
 
 export function* adminReadAllUserStart(){
     try{
@@ -30,5 +32,17 @@ export function* adminReadAllTeamsStart(){
     }
     catch(error){
         
+    }
+}
+
+export function* adminReadNonendUsersStart(){
+    try{
+        var usersRef = database.ref('/users').orderByChild('endUser').equalTo(null);
+        var users = yield call(firebaseReadFromRef, usersRef);
+        console.log(users);
+        yield put(adminReadNonendUsersFinish(users));
+    }
+    catch(error){
+        yield put(adminReadNonendUsersFinish(error));
     }
 }
