@@ -1,33 +1,52 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import style from 'styled-components'
-import {List as DefaultList, Tabs,} from 'antd'
+import {List as DefaultList, Tabs, Input} from 'antd'
+import _ from 'lodash'
 
+import {searchByText} from '../utils'
 import {adminReadNonendUsersStart, adminAuthorizeDician} from '../redux/actions/actionCreators'
 import {Button} from '../components/FormComponents'
+const {Search} = Input;
 
 class Users extends Component {
   
-    state = {
-        selectedUid : '',
-        authorize : false
-    }
-
     constructor(props){
         super(props)
-        props.adminReadNonendUsersStart();        
+        props.adminReadNonendUsersStart();     
+        this.state = {
+            searchedUsers : []
+        }
     }
 
     authorize = (id) => (event) => {
         this.props.adminAuthorizeDician(id);
     }
 
+    searchUsers = (text) => {
+        if(!text){
+            this.setState({searchedUsers : []});
+        }
+        this.setState( 
+            { searchedUsers : searchByText(this.props.users, text, 
+                ['id', 'fcmToken', 'gender', 'completeProfile', 'authorized'])
+            }
+        );
+    }
+
     render() {
         let {users} = this.props;
-        let {unauthorized, byRole} = users;
-        
+        var partitionAuthorized = _.partition(users, 'authorized');
+        var byRole = _.values(_.groupBy(partitionAuthorized[0], 'role'));
+        var unauthorized = partitionAuthorized[1];
         return(
-            <Tabs defaultActiveKey="1">
+            <div>
+                <Search
+                    placeholder="Search"
+                    onSearch={this.searchUsers}
+                    style={{ width: 200 }}
+                    />
+            { this.state.searchedUsers.length == 0 ? <Tabs defaultActiveKey="1">
             <Tabs.TabPane tab="To be authorized" key="1">
 
             <DefaultList
@@ -59,7 +78,19 @@ class Users extends Component {
                     </Tabs.TabPane>        
                 })   
             }
-        </Tabs>   
+            </Tabs> : <DefaultList
+                        itemLayout="horizontal"
+                        dataSource={this.state.searchedUsers}
+                        renderItem={user => (
+                            <DefaultList.Item >
+                                <DefaultList.Item.Meta
+                                    description = {user.email }    
+                                />
+                            </DefaultList.Item>
+                        )}
+                        />
+                    }   
+        </div>
         )
     }
 }
