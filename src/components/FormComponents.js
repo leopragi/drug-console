@@ -8,22 +8,13 @@ const InputContainer = style.div`
 
 const ButtonContainer = style.div`
     display : flex;
-    padding : 10px;    
-    justify-content: flex-end;
+    padding : 5px;    
 `;
 
 export function TextInput(props){
-    let {name, placeholder, size, value, type, onChange} = props;
     return (
             <InputContainer>
-                <Input 
-                    name={name}
-                    size={size}
-                    placeholder={placeholder}
-                    type={type}
-                    value={value}
-                    onChange={onChange}
-                />
+                <Input {...props}/>
             </InputContainer>
         )
 }
