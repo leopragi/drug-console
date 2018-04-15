@@ -1,3 +1,5 @@
+import { eventChannel } from 'redux-saga'
+
 function snapshotToList(snapshot){
     var result = [];
     snapshot.forEach(function(data){
@@ -6,19 +8,6 @@ function snapshotToList(snapshot){
         result.push(_t);
     });
     return result;
-}
-
-export function firebaseReadFromRef(ref, isList = true){
-    return new Promise((resolve, reject) => {
-        ref.on('value', (snapshot) => {
-            if(snapshot){
-                return resolve(isList ? snapshotToList(snapshot) : snapshot.val());
-            }
-            else{
-                return reject(new Error("error !"))
-            }
-        })
-    }) 
 }
 
 export function getSubordinateRole(role){
@@ -30,4 +19,17 @@ export function getSubordinateRole(role){
         default:
         return null;
     }
+};
+
+export function createEventChannel(ref, isList = true) {
+    const listener = eventChannel(
+        emit => {
+            ref.on(
+                'value', 
+                snapshot => emit(isList ? snapshotToList(snapshot) : snapshot.val())
+            );
+            return () => ref.off(listener);
+        }
+    );
+    return listener;
 };
