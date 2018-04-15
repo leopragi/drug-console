@@ -126,16 +126,16 @@ export function adminReadNonendUsersStart(){
     }
 }
 
-export function adminReadNonendUsersFinish(users){
+export function adminReadNonendUsersFinish(authorizedUsers, unauthorizedUsers){
     return {
         type : ADMIN_READ_NONEND_USERS_FINISH,
-        payload : users
+        payload : {authorizedUsers, unauthorizedUsers}
     }
 }
-export function userReadSubordinatesStart(user){
+export function userReadSubordinatesStart(users){
     return {
         type : USER_READ_ALL_SUBORDINATE_START,
-        payload : user
+        payload : users
     }
 }
 
