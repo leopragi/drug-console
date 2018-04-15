@@ -8,11 +8,11 @@ function snapshotToList(snapshot){
     return result;
 }
 
-export function firebaseReadFromRef(ref){
+export function firebaseReadFromRef(ref, isList = true){
     return new Promise((resolve, reject) => {
         ref.on('value', (snapshot) => {
             if(snapshot){
-                return resolve(snapshotToList(snapshot));
+                return resolve(isList ? snapshotToList(snapshot) : snapshot.val());
             }
             else{
                 return reject(new Error("error !"))
