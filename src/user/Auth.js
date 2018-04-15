@@ -17,6 +17,8 @@ const Container = styled.div`
 
 const LeftContainer = styled.div`
     flex: 4;
+    display: flex;
+    flex-direction: column;
     background-color:black;
 `;
 
@@ -34,6 +36,15 @@ const AuthContainer = styled.div`
     margin: 50px;
 `;
 
+const AppName = styled.div`
+    display: flex;
+    justify-content: center;
+    color: white;
+    font-size: 50px;
+    font-weight: bold;
+    font-spacing: 1px;
+`;
+
 class Auth extends Component {
 
     render() {
@@ -47,17 +58,10 @@ class Auth extends Component {
         return (
             <Container>
                 <LeftContainer>
-                </LeftContainer>                
+                    <AppName>Med Q</AppName>
+                </LeftContainer> 
                 <RightContainer>
                     <AuthContainer>
-                        {/* <Tabs defaultActiveKey="1" size="large">
-                            <TabPane tab="Login" key="1">
-                                <UserLogin />
-                            </TabPane>
-                            <TabPane tab="Sign Up" key="2">
-                                <UserCreate />
-                            </TabPane>
-                        </Tabs> */}
                         <PrivateRoute redirectTo={redirectTo} path="/login" isLoggedIn={!isLoggedIn} component={Login}/>
                         <PrivateRoute redirectTo={redirectTo} path="/signup" isLoggedIn={!isLoggedIn} component={Create}/>
                     </AuthContainer>
