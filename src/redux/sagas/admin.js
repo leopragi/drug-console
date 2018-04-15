@@ -4,7 +4,7 @@ import { auth, database } from '../../config/firebase'
 import {adminReadAllUserFinish,adminReadNonendUsersFinish } from '../actions/actionCreators'
 import {firebaseReadFromRef} from '../../utils'
 
-
+import _ from 'lodash'
 
 export function* adminReadAllUserStart(){
     try{
@@ -39,8 +39,9 @@ export function* adminReadNonendUsersStart(){
     try{
         var usersRef = database.ref('/users').orderByChild('endUser').equalTo(null);
         var users = yield call(firebaseReadFromRef, usersRef);
-        console.log(users);
-        yield put(adminReadNonendUsersFinish(users));
+        var authorizedUsers = _.filter(users,{'authorized' : true});
+        var unauthorizedUsers = _.filter(users,{'authorized' : false});
+        yield put(adminReadNonendUsersFinish(authorizedUsers,unauthorizedUsers));
     }
     catch(error){
         yield put(adminReadNonendUsersFinish(error));
