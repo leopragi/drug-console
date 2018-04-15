@@ -3,13 +3,14 @@ import { auth, database } from '../../config/firebase'
 import _ from 'lodash'
 
 import {userSignUpFinish, userLoginFinish, userCheckLoginStatusFinish,
-     userSendVerificationMailStart, userReadQueriesFinish, userReadAllSubordinateFinish} from '../actions/actionCreators'
+     userSendVerificationMailStart, userReadQueriesFinish, userReadSubordinatesFinish} from '../actions/actionCreators'
 import {firebaseReadFromRef, getSubordinateRole} from '../../utils'
 
 function onAuthStateChanged(){
     return new Promise((resolve, reject) =>{
         auth.onAuthStateChanged(user =>{
             if(user){
+                user = _.pick(user, ['displayName', 'email', 'emailVerified', 'phoneNumber', 'photoURL', 'uid']);
                 return resolve(user)
             }
             else{
@@ -22,6 +23,10 @@ function onAuthStateChanged(){
 export function* userCheckLoginStatusStart(action){
     try{
         var user = yield call(onAuthStateChanged);
+        const userRef = database.ref('/users').child(user.uid);
+        var myUser = yield call(firebaseReadFromRef, userRef, false);
+        user = Object.assign(user, myUser);
+        console.log(user)
         yield put(userCheckLoginStatusFinish(user))
     }catch(error){
         yield put(userCheckLoginStatusFinish(null))
@@ -85,18 +90,18 @@ export function* userReadQueriesStart(action){
     }
 }
 
-export function* userReadAllSubordinateStart(action){
-    let {uid, role} = action.payload;
+export function* userReadSubordinatesStart(action){
+    let user = action.payload;
     //TODO get user here
-    const subRoles = getSubordinateRole('admin')
+    const subRoles = getSubordinateRole(user.role)
     var subordinates = [];
     try{
-        var subRef = database.ref('/users').orderByChild('team').equalTo('team1');
+        var subRef = database.ref('/users').orderByChild('team').equalTo(user.team);
         var members = yield call(firebaseReadFromRef, subRef);
         subordinates = _.filter(members, (member) => _.includes(subRoles, member.role));
-        yield put(userReadAllSubordinateFinish(subordinates))
+        yield put(userReadSubordinatesFinish(subordinates))
     }
     catch(e){   
-        console.log(e)        
+        console.log(e)
     }
 }
