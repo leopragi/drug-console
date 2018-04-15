@@ -1,8 +1,10 @@
-import { put, call } from 'redux-saga/effects'
+import { put, call, all } from 'redux-saga/effects'
 import { auth, database } from '../../config/firebase'
+import _ from 'lodash'
 
-import {userSignUpFinish, userLoginFinish, userCheckLoginStatusFinish, isEmailVerified, userSendVerificationMailStart, userReadQueriesFinish} from '../actions/actionCreators'
-import {firebaseReadFromRef} from '../../utils'
+import {userSignUpFinish, userLoginFinish, userCheckLoginStatusFinish,
+     userSendVerificationMailStart, userReadQueriesFinish, userReadAllSubordinateFinish} from '../actions/actionCreators'
+import {firebaseReadFromRef, getSubordinateRole} from '../../utils'
 
 function onAuthStateChanged(){
     return new Promise((resolve, reject) =>{
@@ -77,6 +79,22 @@ export function* userReadQueriesStart(action){
         var queryRef = database.ref('/queries').orderByChild('allocation/admin').equalTo(userId);
         var queries = yield call(firebaseReadFromRef, queryRef);
         yield put(userReadQueriesFinish(queries))
+    }
+    catch(e){   
+        console.log(e)        
+    }
+}
+
+export function* userReadAllSubordinateStart(action){
+    let {uid, role} = action.payload;
+    //TODO get user here
+    const subRoles = getSubordinateRole('admin')
+    var subordinates = [];
+    try{
+        var subRef = database.ref('/users').orderByChild('team').equalTo('team1');
+        var members = yield call(firebaseReadFromRef, subRef);
+        subordinates = _.filter(members, (member) => _.includes(subRoles, member.role));
+        yield put(userReadAllSubordinateFinish(subordinates))
     }
     catch(e){   
         console.log(e)        
