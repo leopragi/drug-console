@@ -28,9 +28,7 @@ class Query extends Component {
         this.state = {
             answer : query.answer
         }        
-    }
-
-    
+    }    
 
     handleEditorChange = (e) => {
         console.log('Content was updated:', e.target.getContent());
@@ -44,7 +42,7 @@ class Query extends Component {
                     {query.queries[0].query} 
                 </TitleContainer>
                <TagContainer>
-                        <Tag color='#ffab00'> <Icon type="smile" /> {query.feedback}</Tag>
+                        <Tag color='#ffab00'> <Icon type="smile" /> {query.feedback.comment}</Tag>
                         <Tag color='#ffab00'>{'@'+query.at}</Tag>
                         {query.answered ? <Tag color='#87d068'>resolved</Tag> : <Tag color='#f00'>pending</Tag>  }
 
