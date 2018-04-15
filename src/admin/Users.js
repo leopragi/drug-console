@@ -3,7 +3,8 @@ import {connect} from 'react-redux'
 import style from 'styled-components'
 import {List as DefaultList, Tabs,} from 'antd'
 
-import { adminReadAllUserStart, adminReadUnauthorizedUsersStart, adminReadAuthorizedUsersStart } from '../redux/actions/actionCreators'
+
+import { adminReadAllUserStart, adminReadNonendUsersStart} from '../redux/actions/actionCreators'
 
 class Users extends Component {
   
@@ -14,33 +15,48 @@ class Users extends Component {
 
     constructor(props){
         super(props)
-        props.adminReadAllUserStart();        
+       // props.adminReadAllUserStart();
+        props.adminReadNonendUsersStart();        
     }
 
     render() {
         let {users} = this.props;
-        console.log(users)
+        
         return(
-            <Tabs defaultActiveKey="2">
+            <Tabs defaultActiveKey="1">
             <Tabs.TabPane tab={<span>UNAUTHORIZED USERS</span>} key="1">
-              
+            <DefaultList
+                itemLayout="horizontal"
+                dataSource={users}
+                renderItem={user => (
+                   // user.authorized === true ?
+                   
+                    <DefaultList.Item >
+                        <DefaultList.Item.Meta
+                            description = { user.authorized ? null : user.email}    
+                        />
+                    </DefaultList.Item>//: null
+                )}
+            />
             </Tabs.TabPane>
             <Tabs.TabPane tab={<span>AUTHORIZED USERS</span>} key="2">
-
+            <DefaultList
+                itemLayout="horizontal"
+                dataSource={users}
+                renderItem={user => (
+                    user.authorized ?
+                   
+                    <DefaultList.Item >
+                        <DefaultList.Item.Meta
+                            description = {user.email }    
+                        />
+                    </DefaultList.Item>: null
+                )}
+                />
             </Tabs.TabPane>
           </Tabs>
             
-            // <DefaultList
-            //     itemLayout="horizontal"
-            //     dataSource={users}
-            //     renderItem={user => (
-            //         <DefaultList.Item>
-            //             <DefaultList.Item.Meta
-            //                 description = {user.email}    
-            //             />
-            //         </DefaultList.Item>
-            //     )}
-            // />
+           
         )
     }
 }
@@ -52,4 +68,4 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 
-export default connect(mapStateToProps,{adminReadAllUserStart, adminReadUnauthorizedUsersStart, adminReadAuthorizedUsersStart})(Users);
+export default connect(mapStateToProps,{adminReadAllUserStart, adminReadNonendUsersStart})(Users);
