@@ -4,8 +4,6 @@ import { auth, database } from '../../config/firebase'
 import {adminReadNonendUsersFinish } from '../actions/actionCreators'
 import {createEventChannel} from '../../utils'
 
-import _ from 'lodash'
-
 export function* adminReadAllStoriesStart(){
     try{
         
@@ -41,13 +39,10 @@ export function* adminReadNonendUsersStart(){
         var usersRef = database.ref('/users').orderByChild('endUser').equalTo(null);
         while(true) {
             const users = yield take(createEventChannel(usersRef));
-            var partitionAuthorized = _.partition(users, 'authorized');
-            var partitionRole = _.values(_.groupBy(partitionAuthorized[0], 'role'));
-            yield put(adminReadNonendUsersFinish({ 
-                    byRole : partitionRole, 
-                    unauthorized : partitionAuthorized[1]
-                })
-            );
+            // _.find(savedViews, 'description', view);
+            // var partitionAuthorized = _.partition(users, 'authorized');
+            // var partitionRole = _.values(_.groupBy(partitionAuthorized[0], 'role'));
+            yield put(adminReadNonendUsersFinish(users));
         }
     } catch(error){
         console.log(error)
