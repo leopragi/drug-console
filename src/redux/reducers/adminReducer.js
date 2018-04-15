@@ -1,4 +1,5 @@
-import {ADMIN_GET_ALL_USER_FINISH, ADMIN_READ_ALL_STORIES_FINISH, ADMIN_READ_ALL_TEAMS_FINISH} from '../actions/actions'
+import {ADMIN_GET_ALL_USER_FINISH, ADMIN_READ_ALL_STORIES_FINISH, 
+    ADMIN_READ_ALL_TEAMS_FINISH, ADMIN_READ_NONEND_USERS_FINISH} from '../actions/actions'
 
 const initialState = {
     users : [],
@@ -16,6 +17,9 @@ function reducer(state = initialState, action){
 
         case ADMIN_READ_ALL_TEAMS_FINISH:
             return { ...state, teams : action.payload };
+
+        case ADMIN_READ_NONEND_USERS_FINISH:
+            return {...state,users : action.payload};
 
     }
     return state;
