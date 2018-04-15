@@ -1,8 +1,8 @@
-import { put, call } from 'redux-saga/effects'
+import { put, call, take } from 'redux-saga/effects'
 import { auth, database } from '../../config/firebase'
 
 import {adminReadNonendUsersFinish } from '../actions/actionCreators'
-import {firebaseReadFromRef} from '../../utils'
+import {createEventChannel} from '../../utils'
 
 import _ from 'lodash'
 
@@ -24,15 +24,33 @@ export function* adminReadAllTeamsStart(){
     }
 }
 
+export function* adminAuthorizeDician(action){
+    const uid = action.payload;
+    try {
+        yield call((uid) => {
+            const userRef = database.ref('/users').child(uid).child('authorized');
+            return userRef.set(true);
+        }, uid);
+    } catch(e){
+        console.log(e)
+    }
+}
+
 export function* adminReadNonendUsersStart(){
     try{
         var usersRef = database.ref('/users').orderByChild('endUser').equalTo(null);
-        var users = yield call(firebaseReadFromRef, usersRef);
-        var authorizedUsers = _.filter(users,{'authorized' : true});
-        var unauthorizedUsers = _.filter(users,{'authorized' : false});
-        yield put(adminReadNonendUsersFinish(authorizedUsers,unauthorizedUsers));
-    }
-    catch(error){
+        while(true) {
+            const users = yield take(createEventChannel(usersRef));
+            var partitionAuthorized = _.partition(users, 'authorized');
+            var partitionRole = _.values(_.groupBy(partitionAuthorized[0], 'role'));
+            yield put(adminReadNonendUsersFinish({ 
+                    byRole : partitionRole, 
+                    unauthorized : partitionAuthorized[1]
+                })
+            );
+        }
+    } catch(error){
+        console.log(error)
         yield put(adminReadNonendUsersFinish(error));
     }
 }

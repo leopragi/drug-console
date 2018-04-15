@@ -1,10 +1,12 @@
-import { put, call, all } from 'redux-saga/effects'
-import { auth, database } from '../../config/firebase'
+import { put, call, take } from 'redux-saga/effects'
 import _ from 'lodash'
+
+import { auth, database } from '../../config/firebase'
+import { createEventChannel } from '../../utils'
 
 import {userSignUpFinish, userLoginFinish, userCheckLoginStatusFinish,
      userSendVerificationMailStart, userReadQueriesFinish, userReadSubordinatesFinish} from '../actions/actionCreators'
-import {firebaseReadFromRef, getSubordinateRole} from '../../utils'
+import {getSubordinateRole} from '../../utils'
 
 function onAuthStateChanged(){
     return new Promise((resolve, reject) =>{
@@ -24,10 +26,12 @@ export function* userCheckLoginStatusStart(action){
     try{
         var user = yield call(onAuthStateChanged);
         const userRef = database.ref('/users').child(user.uid);
-        var myUser = yield call(firebaseReadFromRef, userRef, false);
-        user = Object.assign(user, myUser);
-        yield put(userCheckLoginStatusFinish(user))
-    }catch(error){
+        while(true) {
+            const myUser = yield take(createEventChannel(userRef, false));
+            user = Object.assign(user, myUser);
+            yield put(userCheckLoginStatusFinish(user))
+        }
+    } catch(error){
         yield put(userCheckLoginStatusFinish(null))
     }
 }
@@ -81,10 +85,11 @@ export function* userReadQueriesStart(action){
     let userId = action.payload;
     try{
         var queryRef = database.ref('/queries').orderByChild('allocation/admin').equalTo(userId);
-        var queries = yield call(firebaseReadFromRef, queryRef);
-        yield put(userReadQueriesFinish(queries))
-    }
-    catch(e){   
+        while(true) {
+            const queries = yield take(createEventChannel(queryRef));
+            yield put(userReadQueriesFinish(queries))
+        }
+    } catch(e){   
         console.log(e)        
     }
 }
@@ -92,12 +97,14 @@ export function* userReadQueriesStart(action){
 export function* userReadSubordinatesStart(action){
     let user = action.payload;
     const subRoles = getSubordinateRole(user.role)
+    var subRef = database.ref('/users').orderByChild('team').equalTo(user.team);
     var subordinates = [];
     try{
-        var subRef = database.ref('/users').orderByChild('team').equalTo(user.team);
-        var members = yield call(firebaseReadFromRef, subRef);
-        subordinates = _.filter(members, (member) => _.includes(subRoles, member.role));
-        yield put(userReadSubordinatesFinish(subordinates))
+        while(true) {
+            const members = yield take(createEventChannel(subRef));
+            subordinates = _.filter(members, (member) => _.includes(subRoles, member.role));
+            yield put(userReadSubordinatesFinish(subordinates))
+        }
     }
     catch(e){   
         console.log(e)
