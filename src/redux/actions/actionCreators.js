@@ -1,6 +1,6 @@
 import {USER_SIGNUP_START, USER_SIGNUP_FINISH, 
     USER_LOGIN_START, USER_SIGN_OUT,
-    USER_LOGIN_FINISH, USER_CHECK_LOGIN_STATUS_START,
+    USER_LOGIN_FINISH, USER_CHECK_LOGIN_STATUS_START, ADMIN_AUTHORIZE_DICIAN,
     USER_CHECK_LOGIN_STATUS_FINISH, USER_SEND_VERIFICATION_MAIL_START, USER_READ_SUBORDINATES_FINISH,
     USER_SEND_VERIFICATION_MAIL_FINSIH, USER_READ_QUERY_FINISH, USER_READ_QUERY_START,
     ADMIN_READ_ALL_STORIES_FINISH, ADMIN_READ_ALL_STORIES_START, ADMIN_READ_ALL_TEAMS_FINISH,
@@ -114,10 +114,10 @@ export function adminReadNonendUsersStart(){
     }
 }
 
-export function adminReadNonendUsersFinish(authorizedUsers, unauthorizedUsers){
+export function adminReadNonendUsersFinish(users){
     return {
         type : ADMIN_READ_NONEND_USERS_FINISH,
-        payload : {authorizedUsers, unauthorizedUsers}
+        payload : users
     }
 }
 export function userReadSubordinatesStart(users){
@@ -131,5 +131,12 @@ export function userReadSubordinatesFinish(subordinates){
     return {
         type : USER_READ_SUBORDINATES_FINISH,
         payload : subordinates
+    }
+}
+
+export function adminAuthorizeDician(uid){
+    return {
+        type : ADMIN_AUTHORIZE_DICIAN,
+        payload : uid
     }
 }

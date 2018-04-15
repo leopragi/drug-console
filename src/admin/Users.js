@@ -3,8 +3,8 @@ import {connect} from 'react-redux'
 import style from 'styled-components'
 import {List as DefaultList, Tabs,} from 'antd'
 
-
-import {adminReadNonendUsersStart} from '../redux/actions/actionCreators'
+import {adminReadNonendUsersStart, adminAuthorizeDician} from '../redux/actions/actionCreators'
+import {Button} from '../components/FormComponents'
 
 class Users extends Component {
   
@@ -18,45 +18,48 @@ class Users extends Component {
         props.adminReadNonendUsersStart();        
     }
 
+    authorize = (id) => (event) => {
+        this.props.adminAuthorizeDician(id);
+    }
+
     render() {
-        let {authorizedUsers,unauthorizedUsers} = this.props;
-          
+        let {users} = this.props;
+        let {unauthorized, byRole} = users;
         
         return(
             <Tabs defaultActiveKey="1">
-            <Tabs.TabPane tab={<span>UNAUTHORIZED USERS</span>} key="1">
+            <Tabs.TabPane tab="To be authorized" key="1">
+
             <DefaultList
                 itemLayout="horizontal"
-                dataSource={unauthorizedUsers}
+                dataSource={unauthorized}
                 renderItem={user => (
-                   
-                   
-                    <DefaultList.Item >
-                        <DefaultList.Item.Meta
-                            description = { user.email}    
-                        />
+                    <DefaultList.Item 
+                        actions={[<a onClick={this.authorize(user.id)}>Accept</a>, <a>Reject</a>]}>
+                        <DefaultList.Item.Meta description={user.email}/>
                     </DefaultList.Item>
                 )}
             />
             </Tabs.TabPane>
-            <Tabs.TabPane tab={<span>AUTHORIZED USERS</span>} key="2">
-            <DefaultList
-                itemLayout="horizontal"
-                dataSource={authorizedUsers}
-                renderItem={user => (
-                    user.authorized ?
-                   
-                    <DefaultList.Item >
-                        <DefaultList.Item.Meta
-                            description = {user.email }    
+
+            {
+                byRole && byRole.map((category, key) => {
+                    return <Tabs.TabPane tab={category[0].role} key={key+2}>
+                    <DefaultList
+                        itemLayout="horizontal"
+                        dataSource={category}
+                        renderItem={user => (
+                            <DefaultList.Item >
+                                <DefaultList.Item.Meta
+                                    description = {user.email }    
+                                />
+                            </DefaultList.Item>
+                        )}
                         />
-                    </DefaultList.Item>: null
-                )}
-                />
-            </Tabs.TabPane>
-          </Tabs>
-            
-           
+                    </Tabs.TabPane>        
+                })   
+            }
+        </Tabs>   
         )
     }
 }
@@ -64,10 +67,9 @@ class Users extends Component {
 const mapStateToProps = (state, ownProps) => {
     
     return {
-        authorizedUsers: state.admin.users.authorizedUsers,
-        unauthorizedUsers: state.admin.users.unauthorizedUsers
+        users: state.admin.users,
     }
 }
 
 
-export default connect(mapStateToProps,{adminReadNonendUsersStart})(Users);
+export default connect(mapStateToProps,{adminReadNonendUsersStart, adminAuthorizeDician})(Users);
