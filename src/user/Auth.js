@@ -42,7 +42,7 @@ class Auth extends Component {
         let PrivateRoute = PrivateRouteWrapper(isLoggedIn);
         var redirectTo = '/dashboard';
 		if(user){
-			redirectTo = '/dashboard/queries'
+			redirectTo = '/admin/users'
         }
         return (
             <Container>

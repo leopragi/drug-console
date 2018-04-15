@@ -16,7 +16,7 @@ function reducer(state = initialState, action){
             return { ...state, teams : action.payload };
 
         case ADMIN_READ_NONEND_USERS_FINISH:
-            return {...state,users : action.payload};
+            return {...state, users : action.payload};
 
     }
     return state;
