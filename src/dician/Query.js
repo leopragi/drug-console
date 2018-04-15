@@ -28,9 +28,7 @@ class Query extends Component {
         this.state = {
             answer : query.answer
         }        
-    }
-
-    
+    }    
 
     handleEditorChange = (e) => {
         console.log('Content was updated:', e.target.getContent());

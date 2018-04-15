@@ -20,3 +20,14 @@ export function firebaseReadFromRef(ref){
         })
     }) 
 }
+
+export function getSubordinateRole(role){
+    switch(role){
+        case 'admin':
+        return ['preceptor'];
+        case 'preceptor':
+        return ['expert', 'executive'];
+        default:
+        return null;
+    }
+};

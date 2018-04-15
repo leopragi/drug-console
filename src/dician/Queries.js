@@ -4,24 +4,14 @@ import {List as DefaultList, Spin, Icon, Text, Badge, Popover, List, Tag } from 
 import {Button, Modal} from '../components/FormComponents'
 import {Link} from '../components/RouteComponents'
 import moment from 'moment'
-import {userReadQueriesStart} from '../redux/actions/actionCreators'
-
-const data = [
-    'Racing car sprays burning fuel into crowd.',
-    'Japanese princess to wed commoner.',
-    'Australian walks 100km after outback crash.',
-    'Man charged over missing wedding girl.',
-    'Los Angeles battles huge wildfires.',
-    'Los Angeles battles huge wildfires.',
-    'Los Angeles battles huge wildfires.',
-    'Los Angeles battles huge wildfires.',
-];
+import {userReadQueriesStart, userReadSubordinatesStart} from '../redux/actions/actionCreators'
   
 class Queries extends Component {
 
     constructor(props){
         super(props)
         props.userReadQueriesStart(props.user.uid)
+        props.userReadSubordinatesStart(props.user)
     }
 
     getActions(query){
@@ -45,7 +35,7 @@ class Queries extends Component {
     }
 
     render() {
-        let {queries} = this.props;
+        let {queries, subordinates} = this.props;
         let date = moment(queries.dueOn).format('DD MMM YYYY')
 
         const AllocateDialog = () => <Modal 
@@ -58,8 +48,8 @@ class Queries extends Component {
                 header={<div>Header</div>}
                 footer={<div>Footer</div>}
                 bordered
-                dataSource={data}
-                renderItem={item => (<List.Item>{item}</List.Item>)}
+                dataSource={subordinates}
+                renderItem={subordinate => (<List.Item>{subordinate.email}</List.Item>)}
             />
         </Modal>;
 
@@ -100,9 +90,10 @@ class Queries extends Component {
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-        queries : state.queries,
+        queries : state.dician.queries,
+        subordinates : state.dician.subordinates,
         user : state.user
     }
 }
 
-export default connect(mapStateToProps, {userReadQueriesStart})(Queries);
+export default connect(mapStateToProps, {userReadQueriesStart, userReadSubordinatesStart})(Queries);

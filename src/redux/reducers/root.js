@@ -2,13 +2,13 @@ import {combineReducers} from 'redux';
 
 import userReducer from './userReducer'
 import stringReducer from './stringReducer'
-import queryReducer from './queryReducer'
+import dicianReducer from './dicianReducer'
 import adminReducer from './adminReducer'
 
 const rootReducer = {
     string : stringReducer,
     user : userReducer,
-    queries : queryReducer,
+    dician : dicianReducer,
     admin : adminReducer
 }
 
