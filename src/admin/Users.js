@@ -20,20 +20,22 @@ class Users extends Component {
     }
 
     render() {
-        let {users} = this.props;
+        let {authorizedUsers,unauthorizedUsers} = this.props;
+       // console.log(authorizedUsers)
+        //console.log(unauthorizedUsers)        
         
         return(
             <Tabs defaultActiveKey="1">
             <Tabs.TabPane tab={<span>UNAUTHORIZED USERS</span>} key="1">
             <DefaultList
                 itemLayout="horizontal"
-                dataSource={users}
+                dataSource={unauthorizedUsers}
                 renderItem={user => (
-                   // user.authorized === true ?
+                   
                    
                     <DefaultList.Item >
                         <DefaultList.Item.Meta
-                            description = { user.authorized ? null : user.email}    
+                            description = { user.email}    
                         />
                     </DefaultList.Item>//: null
                 )}
@@ -42,7 +44,7 @@ class Users extends Component {
             <Tabs.TabPane tab={<span>AUTHORIZED USERS</span>} key="2">
             <DefaultList
                 itemLayout="horizontal"
-                dataSource={users}
+                dataSource={authorizedUsers}
                 renderItem={user => (
                     user.authorized ?
                    
@@ -62,8 +64,10 @@ class Users extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
+    
     return {
-        users: state.admin.users
+        authorizedUsers: state.admin.users.authorizedUsers,
+        unauthorizedUsers: state.admin.users.unauthorizedUsers
     }
 }
 
