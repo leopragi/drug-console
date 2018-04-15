@@ -3,7 +3,8 @@ import {USER_SIGNUP_START, USER_SIGNUP_FINISH,
     USER_LOGIN_FINISH, USER_CHECK_LOGIN_STATUS_START, ADMIN_GET_ALL_USERS_START,
     USER_CHECK_LOGIN_STATUS_FINISH, USER_SEND_VERIFICATION_MAIL_START,
     USER_SEND_VERIFICATION_MAIL_FINSIH, USER_READ_QUERY_FINISH, USER_READ_QUERY_START,
-    ADMIN_READ_ALL_STORIES_FINISH, ADMIN_READ_ALL_STORIES_START, ADMIN_READ_ALL_TEAMS_FINISH, ADMIN_READ_ALL_TEAMS_START } from './actions'
+    ADMIN_READ_ALL_STORIES_FINISH, ADMIN_READ_ALL_STORIES_START, ADMIN_READ_ALL_TEAMS_FINISH,
+    ADMIN_READ_ALL_TEAMS_START, ADMIN_READ_NONEND_USERS_START, ADMIN_READ_NONEND_USERS_FINISH } from './actions'
 
 export function userSignUpStart(credentials){
     return{
@@ -119,3 +120,15 @@ export function adminReadAllStoriesFinish(users){
     }
 }
 
+export function adminReadNonendUsersStart(){
+    return {
+        type : ADMIN_READ_NONEND_USERS_START
+    }
+}
+
+export function adminReadNonendUsersFinish(users){
+    return {
+        type : ADMIN_READ_NONEND_USERS_FINISH,
+        payload : users
+    }
+}
