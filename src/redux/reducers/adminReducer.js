@@ -1,4 +1,4 @@
-import {ADMIN_GET_ALL_USER_FINISH, ADMIN_READ_ALL_STORIES_FINISH, 
+import {ADMIN_READ_ALL_STORIES_FINISH, 
     ADMIN_READ_ALL_TEAMS_FINISH, ADMIN_READ_NONEND_USERS_FINISH} from '../actions/actions'
 
 const initialState = {
@@ -9,9 +9,6 @@ const initialState = {
 
 function reducer(state = initialState, action){
     switch(action.type){
-        case ADMIN_GET_ALL_USER_FINISH:
-            return { ...state, users : action.payload };
-
         case ADMIN_READ_ALL_STORIES_FINISH:
             return { ...state, stories : action.payload };
 

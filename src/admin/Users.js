@@ -4,7 +4,7 @@ import style from 'styled-components'
 import {List as DefaultList, Tabs,} from 'antd'
 
 
-import { adminReadAllUserStart, adminReadNonendUsersStart} from '../redux/actions/actionCreators'
+import {adminReadNonendUsersStart} from '../redux/actions/actionCreators'
 
 class Users extends Component {
   
@@ -15,7 +15,6 @@ class Users extends Component {
 
     constructor(props){
         super(props)
-       // props.adminReadAllUserStart();
         props.adminReadNonendUsersStart();        
     }
 
@@ -71,4 +70,4 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 
-export default connect(mapStateToProps,{adminReadAllUserStart, adminReadNonendUsersStart})(Users);
+export default connect(mapStateToProps,{adminReadNonendUsersStart})(Users);

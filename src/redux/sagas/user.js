@@ -26,7 +26,6 @@ export function* userCheckLoginStatusStart(action){
         const userRef = database.ref('/users').child(user.uid);
         var myUser = yield call(firebaseReadFromRef, userRef, false);
         user = Object.assign(user, myUser);
-        console.log(user)
         yield put(userCheckLoginStatusFinish(user))
     }catch(error){
         yield put(userCheckLoginStatusFinish(null))
@@ -92,7 +91,6 @@ export function* userReadQueriesStart(action){
 
 export function* userReadSubordinatesStart(action){
     let user = action.payload;
-    //TODO get user here
     const subRoles = getSubordinateRole(user.role)
     var subordinates = [];
     try{
