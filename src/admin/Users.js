@@ -21,8 +21,7 @@ class Users extends Component {
 
     render() {
         let {authorizedUsers,unauthorizedUsers} = this.props;
-       // console.log(authorizedUsers)
-        //console.log(unauthorizedUsers)        
+          
         
         return(
             <Tabs defaultActiveKey="1">
@@ -37,7 +36,7 @@ class Users extends Component {
                         <DefaultList.Item.Meta
                             description = { user.email}    
                         />
-                    </DefaultList.Item>//: null
+                    </DefaultList.Item>
                 )}
             />
             </Tabs.TabPane>
