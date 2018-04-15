@@ -1,4 +1,5 @@
 import { eventChannel } from 'redux-saga'
+import _ from 'lodash';
 
 function snapshotToList(snapshot){
     var result = [];
@@ -33,3 +34,13 @@ export function createEventChannel(ref, isList = true) {
     );
     return listener;
 };
+
+
+export function searchByText(collection, text, exclude) {
+    text = _.toLower(text);
+    return _.filter(collection, function(object) {
+      return _(object).omit(exclude).some(function(string) {
+        return _(string).toLower().includes(text);
+      });
+    });
+  }
