@@ -49,3 +49,18 @@ export function* adminReadNonendUsersStart(){
         yield put(adminReadNonendUsersFinish(error));
     }
 }
+
+export function* allocateQuery(action){
+    let {query,uid, role} = action.payload;
+    let queryId = query.id;
+    try{
+        var queryRef = database.ref('/queries').child(queryId).child('at');
+        queryRef.set(role);
+        queryRef = database.ref('/queries').child(queryId).child('allocation').child(role);
+        queryRef.set(uid);
+
+    }
+    catch(error){
+        console.log(error);
+    }
+}
