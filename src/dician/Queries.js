@@ -4,7 +4,7 @@ import {List as DefaultList, Spin, Icon, Text, Badge, Popover, List, Tag } from 
 import {Button, Modal} from '../components/FormComponents'
 import {Link} from '../components/RouteComponents'
 import moment from 'moment'
-import {userReadQueriesStart, userReadSubordinatesStart} from '../redux/actions/actionCreators'
+import {userReadQueriesStart, userReadSubordinatesStart, allocateQuery} from '../redux/actions/actionCreators'
   
 class Queries extends Component {
 
@@ -34,25 +34,34 @@ class Queries extends Component {
         return actions;
     }
 
+
+    handleAllocate = (uid,query, role) => (event) => {
+        
+            this.props.allocateQuery(uid, query, role)
+        
+    }
+
+    AllocateDialog(query, subordinates) { 
+        return(
+            <Modal 
+                title="Allocate" 
+                buttonText="Allocate"
+                handleOk={() => {}}
+                handleCancel={() => {}}>
+                    <List
+                        size="small"
+                        bordered
+                        dataSource={subordinates}
+                        renderItem={(subordinate) => (<List.Item><a onClick = {this.handleAllocate(subordinate.id,query, subordinate.role)}>{subordinate.email}></a></List.Item>)}
+                    />
+            </Modal>
+        );
+    }
+
     render() {
         let {queries, subordinates} = this.props;
         let date = moment(queries.dueOn).format('DD MMM YYYY')
-
-        const AllocateDialog = () => <Modal 
-            title="Allocate" 
-            buttonText="Allocate"
-            handleOk={() => {}}
-            handleCancel={() => {}}>
-            <List
-                size="small"
-                header={<div>Header</div>}
-                footer={<div>Footer</div>}
-                bordered
-                dataSource={subordinates}
-                renderItem={subordinate => (<List.Item>{subordinate.email}</List.Item>)}
-            />
-        </Modal>;
-
+        
         return(
             <DefaultList
                 itemLayout="vertical"
@@ -65,7 +74,7 @@ class Queries extends Component {
                                 <Badge status="processing" />
                                 {date}
                                 <div>
-                                    <AllocateDialog />
+                                    {this.AllocateDialog(query, subordinates)}
                                 </div>
                             </div>
                                 
@@ -89,11 +98,12 @@ class Queries extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-	return {
+    
+    return {
         queries : state.dician.queries,
         subordinates : state.dician.subordinates,
         user : state.user
     }
 }
 
-export default connect(mapStateToProps, {userReadQueriesStart, userReadSubordinatesStart})(Queries);
+export default connect(mapStateToProps, {userReadQueriesStart, userReadSubordinatesStart, allocateQuery})(Queries);
