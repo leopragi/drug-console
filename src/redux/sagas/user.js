@@ -110,3 +110,19 @@ export function* userReadSubordinatesStart(action){
         console.log(e)
     }
 }
+
+export function* userRequestEditQuery(action){
+    let {query} = action.payload
+    let queryId = query.id;
+    console.log(action)
+
+    try{
+        var queryRef = database.ref('/queries').child(queryId).child('at');
+        queryRef.set('admin');
+        queryRef = database.ref('/queries').child(queryId).child('suggestEdit');
+        queryRef.set(false);
+    }
+    catch(error){
+        console.log("Error",error)
+    }
+}
