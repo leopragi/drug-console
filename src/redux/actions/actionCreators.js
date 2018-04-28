@@ -5,7 +5,7 @@ import {USER_SIGNUP_START, USER_SIGNUP_FINISH,
     USER_SEND_VERIFICATION_MAIL_FINSIH, USER_READ_QUERY_FINISH, USER_READ_QUERY_START,
     ADMIN_READ_ALL_STORIES_FINISH, ADMIN_READ_ALL_STORIES_START, ADMIN_READ_ALL_TEAMS_FINISH,
     ADMIN_READ_ALL_TEAMS_START, ADMIN_READ_NONEND_USERS_START, ADMIN_READ_NONEND_USERS_FINISH,
-    USER_READ_SUBORDINATES_START, ALLOCATE_QUERY } from './actions'
+    USER_READ_SUBORDINATES_START, ALLOCATE_QUERY, ADMIN_REQUEST_EDIT_QUERY, USER_REQUEST_EDIT_QUERY } from './actions'
     
 export function userSignUpStart(credentials){
     return{
@@ -146,5 +146,19 @@ export function allocateQuery(uid, query, role){
     return{
         type : ALLOCATE_QUERY,
         payload :{ query, uid, role }
+    }
+}
+
+export function adminRequestEditQuery(query){
+    return{
+        type : ADMIN_REQUEST_EDIT_QUERY,
+        payload : query
+    }
+}
+
+export function userRequestEditQuery(query){
+    return{
+        type : USER_REQUEST_EDIT_QUERY,
+        payload : query
     }
 }
