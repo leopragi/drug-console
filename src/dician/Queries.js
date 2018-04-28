@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {List as DefaultList, Spin, Icon, Text, Badge, Popover, List, Tag } from 'antd'
+import {List as DefaultList, Spin, Icon, Text, Badge, Popover, List, Tag, Tabs } from 'antd'
 import {Button, Modal} from '../components/FormComponents'
 import {Link} from '../components/RouteComponents'
 import moment from 'moment'
-import {userReadQueriesStart, userReadSubordinatesStart, allocateQuery} from '../redux/actions/actionCreators'
+import {userReadQueriesStart, userReadSubordinatesStart, allocateQuery, adminRequestEditQuery} from '../redux/actions/actionCreators'
   
 class Queries extends Component {
 
@@ -41,7 +41,13 @@ class Queries extends Component {
         
     }
 
-    AllocateDialog(query, subordinates) { 
+    handleRequestEdit = (query) => (event) => {
+        this.props.adminRequestEditQuery({query})
+    }
+
+   
+
+   AllocateDialog(query, subordinates) { 
         return(
             <Modal 
                 title="Allocate" 
@@ -63,36 +69,82 @@ class Queries extends Component {
         let date = moment(queries.dueOn).format('DD MMM YYYY')
         
         return(
-            <DefaultList
-                itemLayout="vertical"
-                dataSource={queries}
-                renderItem={query => (
-                    <DefaultList.Item
-                        actions={this.getActions(query)}
-                        extra={
-                            <div>
-                                <Badge status="processing" />
-                                {date}
+            <Tabs defaultActiveKey = '1'>
+            <Tabs.TabPane tab='All Queries' key='1'>
+                <DefaultList
+                    itemLayout="vertical"
+                    dataSource={queries}
+                    renderItem={query => (
+                        <DefaultList.Item
+                            actions={this.getActions(query)}
+                            extra={
                                 <div>
-                                    {this.AllocateDialog(query, subordinates)}
+                                    <Badge status="processing" />
+                                    {date}
+                                    <div>
+                                        {this.AllocateDialog(query, subordinates)}
+                                    </div>
                                 </div>
-                            </div>
+                                    
+                            }>
+                            <DefaultList.Item.Meta style={{marginBottom : '5px'}}
+                                description={<Tag color="#ffab00">{'@'+query.at}</Tag>}
+                        />
+                            <DefaultList.Item.Meta style={{margin : '0px'}}
+                                title={
+                                    <Link to={{
+                                        pathname : "/dashboard/query/"+query.id,
+                                        state : { query }
+                                    }}>{query.queries[0].query}</Link>
+                                }
+                        />
+                        </DefaultList.Item>
+                        
+                    )}
+                />
+                </Tabs.TabPane>
+                <Tabs.TabPane tab = 'Edit Requests' key = '2'>
+                <DefaultList
+                    itemLayout="vertical"
+                    dataSource={queries}
+                    renderItem={query =>  (
+                       
+                       <div>
+                           {query.suggestEdit ? (
+                           
+                                <DefaultList.Item
+                                    actions={this.getActions(query)}
+                                >
                                 
-                        }>
-                        <DefaultList.Item.Meta style={{marginBottom : '5px'}}
-                            description={<Tag color="#ffab00">{'@'+query.at}</Tag>}
-                       />
-                        <DefaultList.Item.Meta style={{margin : '0px'}}
-                            title={
-                                <Link to={{
-                                    pathname : "/dashboard/query/"+query.id,
-                                    state : { query }
-                                }}>{query.queries[0].query}</Link>
-                            }
-                       />
-                    </DefaultList.Item>
-                )}
-            />
+                                
+                                 <DefaultList.Item.Meta style={{margin : '0px'}}
+                                        title={
+                                            <Link to={{
+                                                pathname : "/dashboard/query/"+query.id,
+                                                state : { query }
+                                            }}>{query.queries[0].query}</Link>
+                                        } 
+
+                                /> 
+                                <Button
+                                    type = 'primary'
+                                    size = 'small'
+                                    onClick = {this.handleRequestEdit(query)}>
+                                      Request Edit
+                                 </Button>
+
+                                 <div>
+                                     {this.AllocateDialog(query, subordinates)}
+                                     </div>
+
+                           </DefaultList.Item> ) : null }
+                        </div>
+                        
+                    )}
+                />
+                
+                </Tabs.TabPane>
+                </Tabs>
         )
     }
 }
@@ -106,4 +158,4 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps, {userReadQueriesStart, userReadSubordinatesStart, allocateQuery})(Queries);
+export default connect(mapStateToProps, {userReadQueriesStart, userReadSubordinatesStart, allocateQuery, adminRequestEditQuery})(Queries);
