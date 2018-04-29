@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Input as DefaultInput, Card as DefaultCard, Form, Button as DefaultButton, List as DefaultList, Modal as DefaultModal} from 'antd';
+import { Input as DefaultInput, Card as DefaultCard, Select as DefaultSelect, Form, Button as DefaultButton, List as DefaultList, Modal as DefaultModal} from 'antd';
 import style from 'styled-components'
 const FormItem = Form.Item;
+const Option = DefaultSelect.Option;
 
 const ButtonContainer = style.div`
     display : flex;
@@ -30,6 +31,21 @@ export function Button(props){
                 </DefaultButton>
             </ButtonContainer>
         )
+}
+
+export function Select(props){
+    let {options} = props;
+    return (
+        <FormItem>
+            <DefaultSelect {...props}>
+            {
+                (options || []).map((option, i) => {
+                    return <Option value={option.value} key={option.key}>{option.name}</Option>
+                })
+            }
+            </DefaultSelect>
+        </FormItem>  
+    )
 }
 
 
