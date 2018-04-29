@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, TextInput, Button } from '../components/FormComponents';
+import { Card, Input, Button } from '../components/FormComponents';
 import {userSignUpStart} from '../redux/actions/actionCreators'
 import {connect} from 'react-redux'
 import { Steps } from 'antd';
@@ -24,7 +24,7 @@ function Step1(props){
     let {email, password, handleChange} = props;
     return (
         <div>
-            <TextInput
+            <Input
                 name='email'
                 size='large'
                 type="email"                    
@@ -32,7 +32,7 @@ function Step1(props){
                 value={email}
                 onChange={handleChange}
             />
-            <TextInput
+            <Input
                 name='password'
                 size='large'
                 placeholder='Password'

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux'
 import styled from 'styled-components'
 
-import {TextInput, Card, Button} from '../components/FormComponents'
+import {Input, Card, Button} from '../components/FormComponents'
 import {userLoginStart} from '../redux/actions/actionCreators'
 
 
@@ -51,7 +51,7 @@ class Login extends Component {
                     Login
                 </TitleContainer>
                 <FieldContainer>
-                    <TextInput 
+                    <Input 
                         name="email"
                         size="large"
                         type="email"
@@ -60,7 +60,7 @@ class Login extends Component {
                         value={this.state.email}
                         onChange={this.handleChange}   
                     />
-                    <TextInput 
+                    <Input 
                         name="password"
                         size="large"
                         type="password"
