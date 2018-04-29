@@ -8,6 +8,11 @@ import {userReadQueriesStart, userReadSubordinatesStart, allocateQuery} from '..
   
 class Queries extends Component {
 
+    state = {
+        subordinate: undefined,
+        query : undefined
+    }
+
     constructor(props){
         super(props)
         props.userReadQueriesStart(props.user.uid)
@@ -35,10 +40,15 @@ class Queries extends Component {
     }
 
 
-    handleAllocate = (uid,query, role) => (event) => {
+    handleAllocate = (event) => {        
+        this.props.allocateQuery(this.state)
+    }
         
-            this.props.allocateQuery(uid, query, role)
-        
+    selectSubordinate = (query, subordinate) => (event) => {
+        this.setState({
+            query: query,
+            subordinate : subordinate,
+        })
     }
 
     AllocateDialog(query, subordinates) { 
@@ -46,13 +56,13 @@ class Queries extends Component {
             <Modal 
                 title="Allocate" 
                 buttonText="Allocate"
-                handleOk={() => {}}
+                handleOk={this.handleAllocate}
                 handleCancel={() => {}}>
                     <List
                         size="small"
                         bordered
                         dataSource={subordinates}
-                        renderItem={(subordinate) => (<List.Item><a onClick = {this.handleAllocate(subordinate.id,query, subordinate.role)}>{subordinate.email}></a></List.Item>)}
+                        renderItem={(subordinate) => (<List.Item><a onClick = {this.selectSubordinate(query, subordinate)}>{subordinate.email}</a></List.Item>)}
                     />
             </Modal>
         );
