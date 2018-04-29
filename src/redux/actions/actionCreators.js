@@ -149,10 +149,10 @@ export function allocateQuery(subordinate, query){
     }
 }
 
-export function adminRequestEditQuery(query){
+export function adminRequestEditQuery(query, authorized){
     return{
         type : ADMIN_REQUEST_EDIT_QUERY,
-        payload : query
+        payload : { query, authorized }
     }
 }
 
