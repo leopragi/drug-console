@@ -51,14 +51,14 @@ export function* adminReadNonendUsersStart(){
 }
 
 export function* allocateQuery(action){
-    let {query,uid, role} = action.payload;
+    let {subordinate, query} = action.payload;
     let queryId = query.id;
+    let {uid, role} = subordinate;
     try{
         var queryRef = database.ref('/queries').child(queryId).child('at');
         queryRef.set(role);
         queryRef = database.ref('/queries').child(queryId).child('allocation').child(role);
         queryRef.set(uid);
-
     }
     catch(error){
         console.log(error);
