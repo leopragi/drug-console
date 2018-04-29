@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
 import Editor from 'tinymce-react';
-import {Card} from '../components/FormComponents'
-import {Tag, Icon} from 'antd'
+import {connect} from 'react-redux'
+import {Card, Button} from '../components/FormComponents'
+import {Tag, Icon, Alert} from 'antd'
 import style from 'styled-components'
+
+import {userRequestEditQuery} from '../redux/actions/actionCreators'
     
 const TagContainer = style.div`
     display : flex;
@@ -34,12 +37,29 @@ class Query extends Component {
         console.log('Content was updated:', e.target.getContent());
     }
 
+    handleEditRequest = (query) => (event) => {
+       this.props.userRequestEditQuery({query})
+        return (
+            <div>
+                <Alert
+                    message="Requested to Edit"
+                    description="Your request to edit the query is under process."
+                    type="success"
+                    showIcon
+                    />
+                </div>
+        )      
+    }
     render() {
         let {query} = this.props.location.state
         return(
             <QueryContainer>  
                 <TitleContainer>
                     {query.queries[0].query} 
+                    <Button
+                        type = 'primary'
+                        size = 'small'
+                        onClick={this.handleEditRequest(query)}>Request Edit</Button>
                 </TitleContainer>
                <TagContainer>
                         <Tag color='#ffab00'> <Icon type="smile" /> {query.feedback.comment}</Tag>
@@ -63,4 +83,10 @@ class Query extends Component {
     }
 }
 
-export default Query;
+const mapStateToProps = (state, ownProps) =>{
+    return{
+
+    }
+}
+
+export default connect (mapStateToProps,{userRequestEditQuery})(Query);

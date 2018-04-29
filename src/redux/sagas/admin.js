@@ -3,13 +3,14 @@ import { auth, database } from '../../config/firebase'
 
 import {adminReadNonendUsersFinish } from '../actions/actionCreators'
 import {createEventChannel} from '../../utils'
+import { consolidateStreamedStyles } from 'styled-components';
 
 export function* adminReadAllStoriesStart(){
     try{
         
     }
     catch(error){
-
+        
     }
 }
 
@@ -62,5 +63,21 @@ export function* allocateQuery(action){
     }
     catch(error){
         console.log(error);
+    }
+}
+
+export function* adminRequestEditQuery(action){
+    let {query} = action.payload
+    let queryId = query.id;
+    console.log(action)
+
+    try{
+        var queryRef = database.ref('/queries').child(queryId).child('at');
+        queryRef.set('end-user');
+        queryRef = database.ref('/queries').child(queryId).child('suggestEdit');
+        queryRef.set(false);
+    }
+    catch(error){
+        console.log("Error",error)
     }
 }
