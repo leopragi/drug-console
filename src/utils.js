@@ -22,6 +22,19 @@ export function getSubordinateRole(role){
     }
 };
 
+export function getSuperiorRole(role){
+    switch(role){
+        case 'admin':
+        return 'endUser';
+        case 'preceptor':
+        return 'admin';
+        case 'expert': case 'executive':
+        return 'preceptor';
+        default:
+        return null;
+    }    
+}
+
 export function createEventChannel(ref, isList = true) {
     const listener = eventChannel(
         emit => {
