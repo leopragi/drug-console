@@ -20,6 +20,11 @@ const TitleContainer = style.div`
     font-weight: bold;
 `;
 
+const ActionContainer = style.div`
+    display : flex;
+    justify-content: flex-end;
+`;
+
 const EditorContainer = style.div``;
 const QueryContainer = style.div``;
 
@@ -56,10 +61,6 @@ class Query extends Component {
             <QueryContainer>  
                 <TitleContainer>
                     {query.queries[0].query} 
-                    <Button
-                        type = 'primary'
-                        size = 'small'
-                        onClick={this.handleEditRequest(query)}>Request Edit</Button>
                 </TitleContainer>
                <TagContainer>
                         <Tag color='#ffab00'> <Icon type="smile" /> {query.feedback.comment}</Tag>
@@ -78,15 +79,13 @@ class Query extends Component {
                         onChange={this.handleEditorChange}
                     />
                 </EditorContainer>
+                <ActionContainer>
+                    <Button
+                        type = 'primary'
+                        onClick={this.handleEditRequest(query)}>Request Edit</Button>
+                </ActionContainer>
             </QueryContainer>
         )
     }
 }
-
-const mapStateToProps = (state, ownProps) =>{
-    return{
-
-    }
-}
-
-export default connect (mapStateToProps,{userRequestEditQuery})(Query);
+export default connect (null,{userRequestEditQuery})(Query);
