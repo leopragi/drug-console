@@ -1,4 +1,4 @@
-import { put, call, take } from 'redux-saga/effects'
+import { put, call, take, select } from 'redux-saga/effects'
 import _ from 'lodash'
 
 import { auth, database } from '../../config/firebase'
@@ -82,9 +82,9 @@ export function* userSignOut(action){
 }
 
 export function* userReadQueriesStart(action){
-    let userId = action.payload;
+    const {user} = yield select((state)=>state);        
     try{
-        var queryRef = database.ref('/queries').orderByChild('allocation/admin').equalTo(userId);
+        var queryRef = database.ref('/queries').orderByChild('allocation/admin').equalTo(user.uid);
         while(true) {
             const queries = yield take(createEventChannel(queryRef));
             yield put(userReadQueriesFinish(queries))
@@ -95,7 +95,7 @@ export function* userReadQueriesStart(action){
 }
 
 export function* userReadSubordinatesStart(action){
-    let user = action.payload;
+    const {user} = yield select((state)=>state);    
     const subRoles = getSubordinateRole(user.role)
     var subRef = database.ref('/users').orderByChild('team').equalTo(user.team);
     var subordinates = [];
@@ -114,13 +114,9 @@ export function* userReadSubordinatesStart(action){
 export function* userRequestEditQuery(action){
     let {query} = action.payload
     let queryId = query.id;
-    console.log(action)
-
     try{
-        var queryRef = database.ref('/queries').child(queryId).child('at');
-        queryRef.set('admin');
-        queryRef = database.ref('/queries').child(queryId).child('suggestEdit');
-        queryRef.set(false);
+        database.ref('/queries').child(queryId).child('at').set('admin');
+        database.ref('/queries').child(queryId).child('suggestEdit').set(true);
     }
     catch(error){
         console.log("Error",error)
