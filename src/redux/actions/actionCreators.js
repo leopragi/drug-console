@@ -142,9 +142,9 @@ export function adminAuthorizeDician(uid){
     }
 }
 
-export function allocateQuery(uid, query, role){
+export function allocateQuery(subordinate, query){
     return{
         type : ALLOCATE_QUERY,
-        payload :{ query, uid, role }
+        payload :{ subordinate, query }
     }
 }
