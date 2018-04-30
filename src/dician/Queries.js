@@ -5,6 +5,9 @@ import {Button, Modal} from '../components/FormComponents'
 import {Link} from '../components/RouteComponents'
 import moment from 'moment'
 import {userReadQueriesStart, userReadSubordinatesStart, allocateQuery, adminRequestEditQuery} from '../redux/actions/actionCreators'
+import {Chart, Axis, Tooltip, Geom} from "bizcharts";
+
+
   
 class Queries extends Component {
 
@@ -67,8 +70,17 @@ class Queries extends Component {
     render() {
         let {queries, subordinates} = this.props;
         let date = moment(queries.dueOn).format('DD MMM YYYY')
+        const data = [{'hi' : 1},{'bye': 2}];
         
         return(
+            <div>
+            <Chart height={400} data={data} forceFit>
+                <Axis name="month" />
+                <Axis name="temperature" label={{formatter: val => `${val}°C`}} />
+                    <Tooltip crosshairs={{type : "y"}} />
+                <Geom type="line" position="month*temperature" size={2} color={'city'} />
+                <Geom type='point' position="month*temperature" size={4} color={'city'} />
+            </Chart>
             <Tabs defaultActiveKey = '1'>
             <Tabs.TabPane tab='All Queries' key='1'>
                 <DefaultList
@@ -145,6 +157,7 @@ class Queries extends Component {
                 
                 </Tabs.TabPane>
                 </Tabs>
+                </div>
         )
     }
 }
