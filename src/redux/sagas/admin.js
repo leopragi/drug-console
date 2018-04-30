@@ -1,8 +1,8 @@
-import { put, call, take } from 'redux-saga/effects'
+import { put, call, take, select } from 'redux-saga/effects'
 import { auth, database } from '../../config/firebase'
 
 import {adminReadNonendUsersFinish } from '../actions/actionCreators'
-import {createEventChannel} from '../../utils'
+import {createEventChannel, getSubordinateRole, getSuperiorRole} from '../../utils'
 import { consolidateStreamedStyles } from 'styled-components';
 
 export function* adminReadAllStoriesStart(){
@@ -52,14 +52,14 @@ export function* adminReadNonendUsersStart(){
 }
 
 export function* allocateQuery(action){
-    let {query,uid, role} = action.payload;
+    let {subordinate, query} = action.payload;
     let queryId = query.id;
+    let {uid, role} = subordinate;
     try{
         var queryRef = database.ref('/queries').child(queryId).child('at');
         queryRef.set(role);
         queryRef = database.ref('/queries').child(queryId).child('allocation').child(role);
         queryRef.set(uid);
-
     }
     catch(error){
         console.log(error);
@@ -67,15 +67,14 @@ export function* allocateQuery(action){
 }
 
 export function* adminRequestEditQuery(action){
-    let {query} = action.payload
+    let {query, authorized} = action.payload
     let queryId = query.id;
-    console.log(action)
-
+    const {user} = yield select((state)=>state);
     try{
-        var queryRef = database.ref('/queries').child(queryId).child('at');
-        queryRef.set('end-user');
-        queryRef = database.ref('/queries').child(queryId).child('suggestEdit');
-        queryRef.set(false);
+        database.ref('/queries').child(queryId).child('at').set(authorized ? 
+            getSuperiorRole(user.role)
+            : getSubordinateRole(user.role));
+        database.ref('/queries').child(queryId).child('suggestEdit').set(authorized);
     }
     catch(error){
         console.log("Error",error)
