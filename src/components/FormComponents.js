@@ -34,13 +34,14 @@ export function Button(props){
 }
 
 export function Select(props){
-    let {options} = props;
+    let {options, renderRow} = props;
     return (
         <FormItem>
             <DefaultSelect {...props}>
             {
                 (options || []).map((option, i) => {
-                    return <Option value={option.value} key={option.key}>{option.name}</Option>
+                    let render = renderRow(option, i)
+                    return <Option value={option.id} key={option.id}>{render}</Option>
                 })
             }
             </DefaultSelect>
