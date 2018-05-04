@@ -1,21 +1,22 @@
 import React, { Component } from 'react'
+import {connect} from 'react-redux'
 import {Card, Row, Col, Form, Button} from 'antd'
+import _ from 'lodash'
+import {adminReadNonendUsersStart} from '../redux/actions/actionCreators'
 import {Input, Select} from '../components/FormComponents'
 
 class Teams extends Component {
+
+    constructor(props){
+        super(props)
+        props.adminReadNonendUsersStart();             
+    }
+
     render() {
+        let {users} = this.props;
         const domainId = "ooty";
 
-        const options = [
-            {value:'red', name:'Red', key:'1'},
-            {value:'green', name:'Green', key:'2'},
-            {value:'blue', name:'Blue', key:'3'},
-            {value:'blue1', name:'Blue', key:'4'},
-            {value:'blue2', name:'Blue', key:'5'},
-            {value:'blue3', name:'Blue', key:'6'},
-            {value:'blue4', name:'Blue', key:'7'},
-            {value:'blue5', name:'Blue', key:'8'},
-        ];
+        var freeDicians = _.filter(users, user => user.role == null);
 
         return (
             <Row>
@@ -28,17 +29,29 @@ class Teams extends Component {
                             <Select 
                                 mode="multiple" 
                                 placeholder="Preceptor"
-                                options={options}
+                                options={freeDicians}
+                                renderRow={(option, i)=>{
+                                    return <div>
+                                    <div>{option.email}</div>
+                                    <div>{i}</div>
+                                    </div>
+                                }}
                             />
                             <Select 
                                 mode="multiple" 
                                 placeholder="Executive"
-                                options={options}
+                                options={freeDicians}
+                                renderRow={(option, i)=>{
+                                    return <span>{option.email}</span>
+                                }}
                             />
                             <Select 
                                 mode="multiple" 
                                 placeholder="Expert"
-                                options={options}
+                                options={freeDicians}
+                                renderRow={(option, i)=>{
+                                    return <span>{option.email}</span>
+                                }}
                             />
                             <Button type="primary" htmlType="submit">
                                 Create
@@ -53,4 +66,10 @@ class Teams extends Component {
     }
 }
 
-export default Teams;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        users: state.admin.users,
+    }
+}
+
+export default connect(mapStateToProps,{adminReadNonendUsersStart})(Teams);
