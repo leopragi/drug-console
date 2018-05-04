@@ -40,9 +40,6 @@ export function* adminReadNonendUsersStart(){
         var usersRef = database.ref('/users').orderByChild('endUser').equalTo(null);
         while(true) {
             const users = yield take(createEventChannel(usersRef));
-            // _.find(savedViews, 'description', view);
-            // var partitionAuthorized = _.partition(users, 'authorized');
-            // var partitionRole = _.values(_.groupBy(partitionAuthorized[0], 'role'));
             yield put(adminReadNonendUsersFinish(users));
         }
     } catch(error){
