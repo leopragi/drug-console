@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
-import { Input, Card as DefaultCard, Button as DefaultButton, List as DefaultList, Modal as DefaultModal} from 'antd';
+import { Input as DefaultInput, Card as DefaultCard, Select as DefaultSelect, Form, Button as DefaultButton, List as DefaultList, Modal as DefaultModal} from 'antd';
 import style from 'styled-components'
-
-const InputContainer = style.div`
-    padding : 5px;
-`;
+const FormItem = Form.Item;
+const Option = DefaultSelect.Option;
 
 const ButtonContainer = style.div`
     display : flex;
     padding : 5px;    
 `;
 
-export function TextInput(props){
+export function Input(props){
     return (
-            <InputContainer>
-                <Input {...props}/>
-            </InputContainer>
+            <FormItem>
+                <DefaultInput {...props}/>
+            </FormItem>
         )
 }
 
@@ -33,6 +31,22 @@ export function Button(props){
                 </DefaultButton>
             </ButtonContainer>
         )
+}
+
+export function Select(props){
+    let {options, renderRow} = props;
+    return (
+        <FormItem>
+            <DefaultSelect {...props}>
+            {
+                (options || []).map((option, i) => {
+                    let render = renderRow(option, i)
+                    return <Option value={option.id} key={option.id}>{render}</Option>
+                })
+            }
+            </DefaultSelect>
+        </FormItem>  
+    )
 }
 
 
