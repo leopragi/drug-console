@@ -5,11 +5,12 @@ import {Button, Modal} from '../components/FormComponents'
 import {Link} from '../components/RouteComponents'
 import moment from 'moment'
 import {userReadQueriesStart, userReadSubordinatesStart, allocateQuery, adminRequestEditQuery} from '../redux/actions/actionCreators'
-import {Chart, Axis, Tooltip, Geom} from "bizcharts";
 
 
   
 import _ from 'lodash'
+
+
 
 class Queries extends Component {
 
@@ -60,8 +61,10 @@ class Queries extends Component {
         this.props.adminRequestEditQuery(query, authorized);
     }
 
+
    AllocateDialog(query, subordinates) { 
         return(
+            
             <Modal 
                 title="Allocate" 
                 buttonText="Allocate"
@@ -77,20 +80,14 @@ class Queries extends Component {
         );
     }
 
+    
     render() {
         let {queries, subordinates} = this.props;
+        console.log(queries)
         let date = moment(queries.dueOn).format('DD MMM YYYY')
         queries = _.partition(queries, n => n.suggestEdit)
-        data = {}
         return(
             <div>
-            <Chart height={400} data={data} forceFit>
-                <Axis name="month" />
-                <Axis name="temperature" label={{formatter: val => `${val}°C`}} />
-                    <Tooltip crosshairs={{type : "y"}} />
-                <Geom type="line" position="month*temperature" size={2} color={'city'} />
-                <Geom type='point' position="month*temperature" size={4} color={'city'} />
-            </Chart>
             <Tabs defaultActiveKey = '1'>
             <Tabs.TabPane tab='All Queries' key='1'>
                 <DefaultList
@@ -156,7 +153,6 @@ class Queries extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    
     return {
         queries : state.dician.queries,
         subordinates : state.dician.subordinates,
