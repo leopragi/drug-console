@@ -10,6 +10,7 @@ function reducer(state = initialState, action){
             return action.payload;
         case USER_CHECK_LOGIN_STATUS_FINISH:
             return action.payload;
+       
     }
     return state;
 }
