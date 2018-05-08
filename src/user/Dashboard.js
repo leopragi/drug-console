@@ -14,6 +14,7 @@ import Template from '../admin/Template';
 import Queries from '../dician/Queries'
 import Query from '../dician/Query';
 import Teams from '../admin/Teams';
+import Stats from '../admin/Stats'
 
 const DefaultHeader = Layout.Header;
 const DefaultContent = Layout.Content;
@@ -100,7 +101,13 @@ class Dashboard extends Component {
                             <Icon type="team" />
                             <span>Teams</span>
                         </Link>
+                    </Menu.Item><Menu.Item key="5">
+                        <Link to="/admin/stats">
+                            <Icon type="bar-chart" />
+                            <span>Statistics</span>
+                        </Link>
                     </Menu.Item>
+
                     {/*<Menu.Item key="9">
                         <Icon type="file" />
                         <span>File</span>
@@ -125,6 +132,8 @@ class Dashboard extends Component {
                         <PrivateRoute redirectTo='/login' path="/admin/notification" component={Notification}/>
                         <PrivateRoute redirectTo='/login' path="/admin/template" component={Template}/>
                         <PrivateRoute redirectTo='/login' path="/admin/teams" component={Teams}/>
+                        <PrivateRoute redirectTo='/login' path="/admin/stats" component={Stats}/>
+
                     </div>
                 </Content>
                 <Footer>
